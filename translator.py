@@ -31,11 +31,10 @@ class translator:
                 data3 = {}
                 data3['车重'] = cols[4]
                 data3['加油'] = cols[5]
-                data3['空车'] = cols[6]
-                data3['重车'] = cols[7]
-                data3['司机'] = cols[8].split(',')
-                data3['起止'] = cols[9].split('-')
-                data2['第一条记录'] = data3
+                data3['公里'] = cols[6]
+                data3['司机'] = cols[7].split(',')
+                data3['起止'] = cols[8].split('-')
+                data2['记录一'] = data3
                 isSecondRound = lastData == cols[0]
                 if isSecondRound:
                     data[cols[0]]['回头货'] = data2
@@ -49,14 +48,13 @@ class translator:
                 data3 = {}
                 data3['车重'] = cols[0]
                 data3['加油'] = cols[1]
-                data3['空车'] = cols[2]
-                data3['重车'] = cols[3]
-                data3['司机'] = cols[4].split(',')
-                data3['起止'] = cols[5].split('-')
+                data3['公里'] = cols[2]
+                data3['司机'] = cols[3].split(',')
+                data3['起止'] = cols[4].split('-')
                 if isSecondRound:
-                    data[lastData]['回头货']['第二条记录'] = data3
+                    data[lastData]['回头货']['记录二'] = data3
                 else:
-                    data[lastData]['第一趟']['第二条记录'] = data3
+                    data[lastData]['第一趟']['记录二'] = data3
         return truck_name, data
 
     def view_2_handler(self):
