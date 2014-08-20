@@ -9,11 +9,14 @@ production_value_pre_path = 'production_value'
 heavy = 33
 
 #coefficient
-light_coe = 0.1
-heavy_coe = 0.2
-very_heavy_coe = 0.3
+oil_per_mile_by_weight_coe = {}
+oil_per_mile_by_weight_coe['轻车'] = 4
+oil_per_mile_by_weight_coe['重车'] = 5
+oil_per_mile_by_weight_coe['超重车'] = 6
 
-#Commission of product_value
+money_per_liter = 7
+
+#Commission of _product_value
 single_commission = 0.1
 double_commission = 0.09
 
@@ -49,7 +52,7 @@ def weight_rules(weight):
     else:
         return '超重车'
 
-#compute oil
+#compute _oil
 def comput_oil(name, v, round, single, double):
     comput_oil_each_record(name, v, round, single, double, '记录一')
     comput_oil_each_record(name, v, round, single, double, '记录二')
@@ -83,5 +86,14 @@ def iter(fun, data, name, single, double):
         fun(name, v, '第一趟', single, double)
         if v.get('回头货'):
             fun(name, v, '回头货', single, double)
+
+def oil_per_mile_by_weight(data):
+    oil_per_mile_by_weight_util(data,'轻车')
+    oil_per_mile_by_weight_util(data,'重车')
+    oil_per_mile_by_weight_util(data,'超重车')
+
+def oil_per_mile_by_weight_util(data, type):
+    return data[type] * oil_per_mile_by_weight_coe[type]
+
 
 
