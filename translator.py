@@ -1,12 +1,10 @@
 #coding:UTF-8
 __author__ = 'xiejiati'
 
-import sys
-sys.path.append(r'C:\Users\qing\PycharmProjects\untitled\Saraly')
+from model import *
+from util import *
 
-from Saraly import *
-
-stored_path = r'C:\Users\qing\Desktop\boy\粤k302.txt'
+stored_path = production_value_pre_path + r'\\' + '粤k302.txt'
 
 class translator:
     def stored_2_view(self):
