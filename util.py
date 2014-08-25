@@ -20,6 +20,10 @@ money_per_liter = 7
 single_commission = 0.1
 double_commission = 0.09
 
+#tel charge and social security
+money_per_dayoff  = 17
+tel_subside = 100
+
 def compute_product_value(name, v, round, single, double):
     lstDriver = v[round]['记录一']['司机']
     nDriver = len(lstDriver)
