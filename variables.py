@@ -22,3 +22,7 @@ double_commission = 0.09
 #tel charge and social security
 money_per_dayoff  = 17
 tel_subside = 100
+
+#path prefix
+path_product_value_package = r'stored'
+

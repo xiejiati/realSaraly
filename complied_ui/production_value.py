@@ -12,11 +12,11 @@ from PySide import QtCore, QtGui
 class Ui_ProductValue(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(1003, 600)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.tableWidget = QtGui.QTableWidget(self.centralwidget)
-        self.tableWidget.setGeometry(QtCore.QRect(10, 70, 701, 351))
+        self.tableWidget.setGeometry(QtCore.QRect(10, 70, 931, 351))
         self.tableWidget.setRowCount(10)
         self.tableWidget.setColumnCount(9)
         self.tableWidget.setObjectName("tableWidget")
@@ -48,6 +48,10 @@ class Ui_ProductValue(object):
         self.comboBox.setObjectName("comboBox")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.pushButton = QtGui.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(200, 10, 75, 23))
+        self.pushButton.setObjectName("pushButton")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -69,4 +73,6 @@ class Ui_ProductValue(object):
         self.tableWidget.horizontalHeaderItem(8).setText(QtGui.QApplication.translate("MainWindow", "起止地", None, QtGui.QApplication.UnicodeUTF8))
         self.comboBox.setItemText(0, QtGui.QApplication.translate("MainWindow", "请选择车辆", None, QtGui.QApplication.UnicodeUTF8))
         self.comboBox.setItemText(1, QtGui.QApplication.translate("MainWindow", "粤k302", None, QtGui.QApplication.UnicodeUTF8))
+        self.comboBox.setItemText(2, QtGui.QApplication.translate("MainWindow", "粤k504", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton.setText(QtGui.QApplication.translate("MainWindow", "保存", None, QtGui.QApplication.UnicodeUTF8))
 

@@ -4,8 +4,12 @@ __author__ = 'xjt'
 import handler
 
 class ProdutionValueView:
-    def read(self, table):
+    def __init__(self, ui):
+        self.ui = ui
+        
+    def read(self):
         data = []
+        table = self.ui.tableWidget
         rowCnt = table.rowCount()
         for i in range(rowCnt):
             data1 = {}
@@ -31,7 +35,8 @@ class ProdutionValueView:
             data.append(data1)
         return data
 
-    def write(self, table, data):
+    def write(self, data):
+         table = self.ui.tableWidget
          self.__clear_text__(table)
          size = len(data)
          for i in range(size):
@@ -39,13 +44,21 @@ class ProdutionValueView:
              for j in range(colCnt):
                 if self.__if_need_not_record__(i, j):
                     continue
-                table.item(i, j).setText(data[i][table.horizontalHeaderItem(j).text().strip()])
+                item = table.item(i, j)
+                if item:
+                    item.setText(data[i][table.horizontalHeaderItem(j).text().strip()])
 
-    def request_save(self):
-        h = handler.ProductionValueHandler()
+    def current_truck_name(self):
+        return self.ui.comboBox.itemText(self.truck_combox_index()).strip()
 
+    def truck_name(self, index):
+        return self.ui.comboBox.itemText(index).strip()
 
+    def truck_combox_index(self):
+        return self.ui.comboBox.currentIndex()
 
+    def table_widget_enabled(self, state):
+        return self.ui.tableWidget.enabled(state)
 
     def __clear_text__(self, table):
         table.clearContents()

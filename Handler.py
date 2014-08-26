@@ -1,15 +1,46 @@
 #coding:utf-8
 __author__ = 'xiejiati'
 
-from util import *
-from translator import *
+import view
+import model
+import translator
+import variables
+import util
 
 class ProductionValueHandler:
-    def save(self):
-        pass
+    def __init__(self, ui):
+        self.lastComboxIdx = 0
+        self.view = view.ProdutionValueView(ui)
+        self.model = model.Model()
+        self.translator = translator.Translator()
+
+    def save_slot(self):
+        truck_name = self.view.current_truck_name()
+        self.__save_from_view_2_stored__(truck_name)
 
 
-class others_handler:
+    def index_changed_slot(self, index):
+
+        if self.lastComboxIdx != 0:
+            last_truck_name = self.view.truck_name(self.lastComboxIdx)
+            self.__save_from_view_2_stored__(last_truck_name)
+
+        self.lastComboxIdx = index
+
+        current_truck_name = self.view.current_truck_name()
+        path = util.join_path(variables.path_product_value_package, current_truck_name, r'pv')
+        lines = self.model.read(path)
+        if lines:
+            self.view.write(lines)
+
+
+    def __save_from_view_2_stored__(self, truck_name):
+        data = self.view.read()
+        lines = self.translator.view_2_stored(data)
+        path = util.join_path(variables.path_product_value_package, truck_name, r'pv')
+        self.model.write(lines, path)
+
+class OthersHandler:
     def money_days_off(self):
         pass
 

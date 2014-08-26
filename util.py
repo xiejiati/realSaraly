@@ -78,5 +78,8 @@ def oil_per_mile_by_weight(data):
 def oil_per_mile_by_weight_util(data, type):
     return data[type] * oil_per_mile_by_weight_coe[type]
 
+def join_path(*path):
+    return path[0]+'\\'+path[1]+'.'+path[2]
+
 
 

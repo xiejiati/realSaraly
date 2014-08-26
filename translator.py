@@ -1,16 +1,15 @@
 #coding:UTF-8
 __author__ = 'xiejiati'
 
-from model import *
 from util import *
 
-stored_path = production_value_pre_path + r'\\' + '粤k302.txt'
+stored_path = production_value_pre_path + '\\' + '粤k302.txt'
 
-class translator:
+class Translator:
     def stored_2_view(self):
         pass
-    def stored_2_handler(self):
-        lines = Model().read(stored_path)
+
+    def stored_2_handler(self, lines):
         truck_name = stored_path.split('\\')[-1].split('.')[0]
         size = len(lines)
         lineNum = 0
@@ -59,7 +58,14 @@ class translator:
 
     def view_2_handler(self):
         pass
-    def view_2_stored(self):
-        pass
 
-print(translator().stored_2_handler())
+    def view_2_stored(self, data):
+        lines = []
+        for data1 in data:
+            line = ''
+            for v in data1.items():
+                line += str(v[1]) + '\t'
+            lines.append(line+'\n')
+        return lines
+
+
