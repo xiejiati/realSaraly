@@ -1,10 +1,9 @@
 #coding:utf-8
 __author__ = 'xjt'
 
-from PySide.QtGui import *
+import handler
 
-
-class ProdutionView:
+class ProdutionValueView:
     def read(self, table):
         data = []
         rowCnt = table.rowCount()
@@ -41,6 +40,12 @@ class ProdutionView:
                 if self.__if_need_not_record__(i, j):
                     continue
                 table.item(i, j).setText(data[i][table.horizontalHeaderItem(j).text().strip()])
+
+    def request_save(self):
+        h = handler.ProductionValueHandler()
+
+
+
 
     def __clear_text__(self, table):
         table.clearContents()

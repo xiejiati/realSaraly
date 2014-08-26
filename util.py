@@ -1,7 +1,7 @@
 #coding:utf-8
 __author__ = 'xjt'
 
-
+from variables import *
 
 def compute_product_value(name, v, round, single, double):
     lstDriver = v[round]['记录一']['司机']
