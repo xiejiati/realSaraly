@@ -38,9 +38,9 @@ class product_handler:
         return self._oil
 
     def remaining_oil(self, name, data):
-        miles = product_handler.miles(self, name, data)
+        miles = self._miles
         bonus = oil_per_mile_by_weight(miles['个人']) + oil_per_mile_by_weight(miles['两人'])/2
-        self._remaining_oil = self._oil - bonus
+        self._remaining_oil = self._oil['个人']+self._oil['两人']/2 - bonus
         return self._remaining_oil
 
     def money_oil(self):
@@ -51,6 +51,9 @@ class product_handler:
 class others_handler:
     def money_days_off(self):
         pass
+
+class ProductionViewHandler:
+    def
 
 
 

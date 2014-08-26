@@ -20,7 +20,7 @@
       <x>10</x>
       <y>70</y>
       <width>701</width>
-      <height>421</height>
+      <height>351</height>
      </rect>
     </property>
     <property name="rowCount">
@@ -84,14 +84,6 @@
       <string>起止地</string>
      </property>
     </column>
-    <item row="0" column="0">
-     <property name="text">
-      <string/>
-     </property>
-     <property name="flags">
-      <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-     </property>
-    </item>
    </widget>
    <widget class="QComboBox" name="comboBox">
     <property name="geometry">
