@@ -6,11 +6,17 @@ import model
 import translator
 import variables
 import util
+from final_ui.product_value_ui import *
+from PySide.QtCore import *
 
-class ProductionValueHandler:
-    def __init__(self, ui):
+class ProductionValueHandler(QObject):
+    def __init__(self):
+        super().__init__()
         self.lastComboxIdx = 0
-        self.view = view.ProdutionValueView(ui)
+        self.ui = MainWindow()
+        self.ui.pushButton.clicked.connect(self, SLOT('save_slot'))
+        self.ui.comboBox.currentIndexChanged.connect(self, SLOT('index_changed_slot'))
+        self.view = view.ProdutionValueView(self.ui)
         self.model = model.Model()
         self.translator = translator.Translator()
 
@@ -19,8 +25,7 @@ class ProductionValueHandler:
         self.__save_from_view_2_stored__(truck_name)
 
 
-    def index_changed_slot(self, index):
-
+    def index_changed_slot(self):
         if self.lastComboxIdx != 0:
             last_truck_name = self.view.truck_name(self.lastComboxIdx)
             self.__save_from_view_2_stored__(last_truck_name)
@@ -39,6 +44,9 @@ class ProductionValueHandler:
         lines = self.translator.view_2_stored(data)
         path = util.join_path(variables.path_product_value_package, truck_name, r'pv')
         self.model.write(lines, path)
+
+    def ui(self):
+        return self.ui
 
 class OthersHandler:
     def money_days_off(self):

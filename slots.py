@@ -1,10 +1,6 @@
 __author__ = 'qing'
 
-from main import *
-
-def save_slot():
-    w.handler.save_slot()
-
-
-def index_changed_slot(index):
-    w.handler.index_changed_slot(index)
+from PySide import QtCore
+from final_ui.product_value_ui import *
+QtCore.QObject.connect(MainWindow, QtCore.SIGNAL('clicked()'), QtCore.SLOT('save_slot()'))
+QtCore.QObject.connect(MainWindow, QtCore.SIGNAL('clicked()'), QtCore.SLOT('index_changed_slot'))
