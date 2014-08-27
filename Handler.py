@@ -15,7 +15,7 @@ class ProductionValueHandler(QObject):
         self.lastComboxIdx = 0
         self.ui = MainWindow()
         self.ui.pushButton.clicked.connect(self, SLOT('save_slot'))
-        self.ui.comboBox.currentIndexChanged.connect(self, SLOT('index_changed_slot'))
+        self.ui.comboBox.currentIndexChanged[int].connect(self, SLOT('index_changed_slot(int)'))
         self.view = view.ProdutionValueView(self.ui)
         self.model = model.Model()
         self.translator = translator.Translator()
@@ -25,7 +25,7 @@ class ProductionValueHandler(QObject):
         self.__save_from_view_2_stored__(truck_name)
 
 
-    def index_changed_slot(self):
+    def index_changed_slot(self, index):
         if self.lastComboxIdx != 0:
             last_truck_name = self.view.truck_name(self.lastComboxIdx)
             self.__save_from_view_2_stored__(last_truck_name)
@@ -45,8 +45,10 @@ class ProductionValueHandler(QObject):
         path = util.join_path(variables.path_product_value_package, truck_name, r'pv')
         self.model.write(lines, path)
 
-    def ui(self):
-        return self.ui
+    def ui_show(self):
+        return self.ui.show()
+
+
 
 class OthersHandler:
     def money_days_off(self):
