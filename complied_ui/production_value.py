@@ -8,20 +8,21 @@
 # WARNING! All changes made in this file will be lost!
 
 from PySide import QtCore, QtGui
+import util
 
 class Ui_ProductValue(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1003, 600)
+        MainWindow.resize(1000, 1000)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.tableWidget = QtGui.QTableWidget(self.centralwidget)
         self.tableWidget.setGeometry(QtCore.QRect(10, 70, 931, 351))
-        self.tableWidget.setRowCount(10)
-        self.tableWidget.setColumnCount(9)
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(9)
-        self.tableWidget.setRowCount(10)
+        self.tableWidget.setRowCount(60)
+        self.tableWidget.setEnabled(False)
+        self.tableWidget.verticalHeader().setVisible(False)
         item = QtGui.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, item)
         item = QtGui.QTableWidgetItem()
@@ -40,6 +41,18 @@ class Ui_ProductValue(object):
         self.tableWidget.setHorizontalHeaderItem(7, item)
         item = QtGui.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(8, item)
+        for i in range(self.tableWidget.rowCount()):
+            for j in range(self.tableWidget.columnCount()):
+                item = QtGui.QTableWidgetItem()
+                item.setFlags(QtCore.Qt.ItemIsUserCheckable)
+                self.tableWidget.setItem(i, j, item)
+                if not util.if_need_not_record(i, j):
+                    self.tableWidget.item(i, j).setFlags(QtCore.Qt.ItemIsUserCheckable\
+                                                         |QtCore.Qt.ItemIsEditable\
+                                                        |QtCore.Qt.ItemIsEnabled)
+                else:
+                    self.tableWidget.item(i, j).setBackground(QtGui.QColor(96,96,96))
+
         self.comboBox = QtGui.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(10, 10, 171, 21))
         self.comboBox.setFocusPolicy(QtCore.Qt.ClickFocus)
@@ -52,6 +65,9 @@ class Ui_ProductValue(object):
         self.pushButton = QtGui.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(200, 10, 75, 23))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton_2 = QtGui.QPushButton(self.centralwidget)
+        self.pushButton_2.setGeometry(QtCore.QRect(290, 10, 75, 23))
+        self.pushButton_2.setObjectName("pushButton_2")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -75,4 +91,5 @@ class Ui_ProductValue(object):
         self.comboBox.setItemText(1, QtGui.QApplication.translate("MainWindow", "粤k302", None, QtGui.QApplication.UnicodeUTF8))
         self.comboBox.setItemText(2, QtGui.QApplication.translate("MainWindow", "粤k504", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButton.setText(QtGui.QApplication.translate("MainWindow", "保存", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_2.setText(QtGui.QApplication.translate("MainWindow", "计算并导出", None, QtGui.QApplication.UnicodeUTF8))
 

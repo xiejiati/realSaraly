@@ -81,5 +81,10 @@ def oil_per_mile_by_weight_util(data, type):
 def join_path(*path):
     return path[0]+'\\'+path[1]+'.'+path[2]
 
+def if_need_not_record(row, col):
+        return row % 2 == 1 and col < 4
+
+
+
 
 

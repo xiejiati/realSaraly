@@ -1,70 +1,70 @@
 #coding:utf-8
 __author__ = 'xjt'
 
-import handler
+import variables
+import util
 
 class ProdutionValueView:
-    def __init__(self, ui):
-        self.ui = ui
-        
-    def read(self):
+    def read(self, ui):
         data = []
-        table = self.ui.tableWidget
+        table = ui.tableWidget
         rowCnt = table.rowCount()
         for i in range(rowCnt):
             data1 = {}
             colCnt = table.columnCount()
             valid_item_count = 0
             for j in range(colCnt):
-                if self.__if_need_not_record__(i, j):
+                if util.if_need_not_record(i, j):
                     continue
                 header = table.horizontalHeaderItem(j).text().strip()
-                table_widget = table.item(i, j)
-                if not table_widget:
+                item = table.item(i, j)
+                if (not item) or '' == item.text().strip():
                     valid_item_count += 1
-                    if valid_item_count >= colCnt-1:
+                    if valid_item_count == colCnt:
                         return data
                     else:
                         continue
-                item_text = table_widget.text().strip()
-                if header == '车重' and  item_text == '':
+                item_text = item.text().strip()
+                if header == variables.truck_weight and  item_text == '':
                     data1[header] = str(0)
                 else:
                     data1[header] = item_text
-
-            data.append(data1)
+            if len(data1) > 0:
+                data.append(data1)
         return data
 
-    def write(self, data):
-         table = self.ui.tableWidget
-         self.__clear_text__(table)
+    def write(self, data, ui):
+         table = ui.tableWidget
+         self.clear_table_text(ui)
          size = len(data)
          for i in range(size):
              colCnt = table.columnCount()
              for j in range(colCnt):
-                if self.__if_need_not_record__(i, j):
+                if util.if_need_not_record(i, j):
                     continue
-                item = table.item(i, j)
+                table_item = table.item(i, j)
+                if table_item:
+                    table_item.setText(data[i][table.horizontalHeaderItem(j).text().strip()])
+
+    def current_truck_name(self, ui):
+        return ui.comboBox.itemText(self.truck_combox_index(ui)).strip()
+
+    def truck_name(self, index, ui):
+        return ui.comboBox.itemText(index).strip()
+
+    def truck_combox_index(self, ui):
+        return ui.comboBox.currentIndex()
+
+    def table_widget_enabled(self, state, ui):
+        return ui.tableWidget.enabled(state)
+
+    def clear_table_text(self, ui):
+        for i in range(ui.tableWidget.rowCount()):
+            for j in range(ui.tableWidget.columnCount()):
+                item = ui.tableWidget.item(i, j)
                 if item:
-                    item.setText(data[i][table.horizontalHeaderItem(j).text().strip()])
+                    item.setText('')
 
-    def current_truck_name(self):
-        return self.ui.comboBox.itemText(self.truck_combox_index()).strip()
-
-    def truck_name(self, index):
-        return self.ui.comboBox.itemText(index).strip()
-
-    def truck_combox_index(self):
-        return self.ui.comboBox.currentIndex()
-
-    def table_widget_enabled(self, state):
-        return self.ui.tableWidget.enabled(state)
-
-    def __clear_text__(self, table):
-        table.clearContents()
-
-    def __if_need_not_record__(self, i, j):
-        return i % 2 == 1 and j < 4
 
 
 

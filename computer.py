@@ -1,7 +1,6 @@
 __author__ = 'xjt'
 
 from util import *
-from translator import *
 from variables import *
 
 class ProductValue:
