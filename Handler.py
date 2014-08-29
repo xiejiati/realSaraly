@@ -2,12 +2,13 @@
 __author__ = 'xiejiati'
 
 import view
-import model
 import translator
-import variables
 from final_ui.product_value_ui import *
 from PySide.QtCore import *
 import computer
+import model
+import variables
+import util
 
 class ProductionValueHandler(QObject):
     def __init__(self):
@@ -18,25 +19,41 @@ class ProductionValueHandler(QObject):
         self.ui.pushButton_2.clicked.connect(self, SLOT('compute_export_slot()'))
         self.ui.comboBox.currentIndexChanged[int].connect(self, SLOT('index_changed_slot(int)'))
         self.view = view.ProdutionValueView()
-        self.model = model.Model()
-        self.translator = translator.Translator()
-        self.computer = computer.ProductValue()
+        self.model = model.CommonFileModel()
+        self.translator = translator.ProductValueTranslator()
+        self.computer = computer.ProductValueComputer()
+        self.driver_truck_dict = {}
 
     def compute_export_slot(self):
+        self.save_slot()
         for name in self.__names__():
             self.computer.product_value()
+
+
+    def __print_product_value_orgin__(self, driver_name):
+        truck_name = ''
+        if self.driver_truck_dict.get(driver_name):
+            truck_name = self.driver_truck_dict[driver_name]
+        else:
+            truck_name = util.truck_name_contains_driver(driver_name)
+            if truck_name == '': return
+            self.driver_truck_dict[driver_name] = truck_name
+
+        lines = util.combine_path_read(self.model, variables.truck_pre_path, truck_name, 'pv')
+        self.translator.stored_2_xls(lines)
+
 
     def __names__(self):
         path = util.join_path(variables.names_pre_path, \
                               '名字', r'txt')
         lines = self.model.read(path)
-        names = []
-        for line in lines:
-            names.append(line.strip())
-        return  names
+        return util.lines_vaild_data(lines)
 
 
     def save_slot(self):
+        if self.view.truck_combox_index(self.ui) == 0:
+            return
+
         truck_name = self.view.current_truck_name(self.ui)
         self.__save_from_view_2_stored__(truck_name)
 

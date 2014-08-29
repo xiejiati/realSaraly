@@ -2,8 +2,9 @@
 __author__ = 'xiejiati'
 
 from variables import *
+import util
 
-class Translator:
+class ProductValueTranslator:
     def stored_2_handler(self, lines):
         size = len(lines)
         lineNum = 0
@@ -24,8 +25,8 @@ class Translator:
                 data3[truck_weight] = cols[4]
                 data3[oil] = cols[5]
                 data3[miles] = cols[6]
-                data3[drivers] = cols[7].split(',')
-                data3[from_to] = cols[8].split('-')
+                data3[drivers] = cols[7].split(driver_delimiter)
+                data3[from_to] = cols[8].split(from_to_delimiter)
                 data2[first_record] = data3
                 isSecondRound = lastData == cols[0]
                 if isSecondRound:
@@ -41,8 +42,8 @@ class Translator:
                 data3[truck_weight] = cols[0]
                 data3[oil] = cols[1]
                 data3[miles] = cols[2]
-                data3[drivers] = cols[3].split(',')
-                data3[from_to] = cols[4].split('-')
+                data3[drivers] = cols[3].split(driver_delimiter)
+                data3[from_to] = cols[4].split(from_to_delimiter)
                 if isSecondRound:
                     data[lastData][second_round][second_record] = data3
                 else:
@@ -64,13 +65,34 @@ class Translator:
     def stored_2_view(self, data):
         output_data = []
         for line in data:
-            output_data1 = {}
-            items = line.split()
-            for item in items:
-                item_parts = item.partition(':')
-                output_data1[item_parts[0]] = item_parts[2]
+            output_data1 = util.split_one_line_stored(line)
             output_data.append(output_data1)
         return  output_data
+
+    def stored_2_xls(self, input):
+        output = []
+        titles = []
+        util.record_line_items(input[0], titles)
+        output.append(titles)
+        size = len(input)
+        i = 0
+        while i < size:
+            line_items = []
+            if util.is_odd(i):
+                for i in range(item_differences):
+                    line_items.append('')
+            util.record_line_items(input[i], line_items)
+            output.append(line_items)
+        return output
+
+
+
+
+
+
+
+
+
 
 
 

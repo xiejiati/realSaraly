@@ -2,7 +2,8 @@ __author__ = 'xjt'
 
 #paths
 production_value_pre_path = 'production_value'
-names_pre_path = 'material'
+truck_pre_path = names_pre_path = 'material'
+
 
 
 #weight of car
@@ -50,3 +51,15 @@ cooperative = '两人'
 light_truck = '轻车'
 heavy_truck = '重车'
 too_heavy_truck = '超重车'
+
+#paths
+path_trucks = r'material\车牌.txt'
+path_drivers = r'material\姓名.txt'
+
+#delimiter
+driver_delimiter = ','
+from_to_delimiter = '-'
+stored_partition_delimiter = ':'
+
+#empty slot difference between first record and second record
+item_differences = 4
