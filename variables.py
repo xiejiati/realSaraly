@@ -33,14 +33,20 @@ client = '客户'
 product_value = '产值'
 comment = '备注'
 truck_weight = '车重'
-gas = '加油'
+oil = '加油'
 miles = '公里'
 drivers = '司机'
 from_to = '起止'
+
+
 
 #other terms
 first_round = '第一趟'
 second_round = '回头货'
 first_record = '记录一'
 second_record = '记录二'
-
+personal = '个人'
+cooperative = '两人'
+light_truck = '轻车'
+heavy_truck = '重车'
+too_heavy_truck = '超重车'

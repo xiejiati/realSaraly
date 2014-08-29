@@ -9,6 +9,8 @@
 
 from PySide import QtCore, QtGui
 import util
+import model
+import variables
 
 class Ui_ProductValue(object):
     def setupUi(self, MainWindow):
@@ -78,15 +80,15 @@ class Ui_ProductValue(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "MainWindow", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableWidget.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("MainWindow", "日期", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableWidget.horizontalHeaderItem(1).setText(QtGui.QApplication.translate("MainWindow", "客户", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableWidget.horizontalHeaderItem(2).setText(QtGui.QApplication.translate("MainWindow", "产值", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableWidget.horizontalHeaderItem(3).setText(QtGui.QApplication.translate("MainWindow", "备注", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableWidget.horizontalHeaderItem(4).setText(QtGui.QApplication.translate("MainWindow", "车重", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableWidget.horizontalHeaderItem(5).setText(QtGui.QApplication.translate("MainWindow", "加油", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableWidget.horizontalHeaderItem(6).setText(QtGui.QApplication.translate("MainWindow", "公里", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableWidget.horizontalHeaderItem(7).setText(QtGui.QApplication.translate("MainWindow", "司机", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableWidget.horizontalHeaderItem(8).setText(QtGui.QApplication.translate("MainWindow", "起止地", None, QtGui.QApplication.UnicodeUTF8))
+        self.tableWidget.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("MainWindow", variables.date, None, QtGui.QApplication.UnicodeUTF8))
+        self.tableWidget.horizontalHeaderItem(1).setText(QtGui.QApplication.translate("MainWindow", variables.client, None, QtGui.QApplication.UnicodeUTF8))
+        self.tableWidget.horizontalHeaderItem(2).setText(QtGui.QApplication.translate("MainWindow", variables.product_value, None, QtGui.QApplication.UnicodeUTF8))
+        self.tableWidget.horizontalHeaderItem(3).setText(QtGui.QApplication.translate("MainWindow", variables.comment, None, QtGui.QApplication.UnicodeUTF8))
+        self.tableWidget.horizontalHeaderItem(4).setText(QtGui.QApplication.translate("MainWindow", variables.truck_weight, None, QtGui.QApplication.UnicodeUTF8))
+        self.tableWidget.horizontalHeaderItem(5).setText(QtGui.QApplication.translate("MainWindow", variables.oil, None, QtGui.QApplication.UnicodeUTF8))
+        self.tableWidget.horizontalHeaderItem(6).setText(QtGui.QApplication.translate("MainWindow", variables.miles, None, QtGui.QApplication.UnicodeUTF8))
+        self.tableWidget.horizontalHeaderItem(7).setText(QtGui.QApplication.translate("MainWindow", variables.drivers, None, QtGui.QApplication.UnicodeUTF8))
+        self.tableWidget.horizontalHeaderItem(8).setText(QtGui.QApplication.translate("MainWindow", variables.from_to, None, QtGui.QApplication.UnicodeUTF8))
         self.comboBox.setItemText(0, QtGui.QApplication.translate("MainWindow", "请选择车辆", None, QtGui.QApplication.UnicodeUTF8))
         self.comboBox.setItemText(1, QtGui.QApplication.translate("MainWindow", "粤k302", None, QtGui.QApplication.UnicodeUTF8))
         self.comboBox.setItemText(2, QtGui.QApplication.translate("MainWindow", "粤k504", None, QtGui.QApplication.UnicodeUTF8))

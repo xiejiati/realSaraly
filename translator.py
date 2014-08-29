@@ -22,7 +22,7 @@ class Translator:
                 data2[comment] = cols[3]
                 data3 = {}
                 data3[truck_weight] = cols[4]
-                data3[gas] = cols[5]
+                data3[oil] = cols[5]
                 data3[miles] = cols[6]
                 data3[drivers] = cols[7].split(',')
                 data3[from_to] = cols[8].split('-')
@@ -39,7 +39,7 @@ class Translator:
             else:
                 data3 = {}
                 data3[truck_weight] = cols[0]
-                data3[gas] = cols[1]
+                data3[oil] = cols[1]
                 data3[miles] = cols[2]
                 data3[drivers] = cols[3].split(',')
                 data3[from_to] = cols[4].split('-')
