@@ -96,7 +96,8 @@ def lines_vaild_data(lines):
 
 def get_truck_names():
     m = model.CommonFileModel()
-    lines = m.read(path_trucks)
+    path = join_path(pre_path_truck, file_name_trucks, 'txt')
+    lines = m.read(path)
     return lines_vaild_data(lines)
 
 def truck_name_contains_driver(driver_name):
@@ -106,12 +107,12 @@ def truck_name_contains_driver(driver_name):
     m = model.CommonFileModel()
     t = translator.ProductValueTranslator()
     for truck_name in truck_names:
-        path = join_path(truck_pre_path, truck_name, 'pv')
+        path = join_path(pre_path__product_value_stored, truck_name, 'pv')
         lines = m.read(path)
         if not lines: continue
         lines_after_transform = t.stored_2_view(lines)
         for line in lines_after_transform:
-            for k, v in line:
+            for (k, v) in line.items():
                 if k != drivers: continue
                 driver_array = v.split(driver_delimiter)
                 if driver_name in driver_array:
@@ -120,7 +121,7 @@ def truck_name_contains_driver(driver_name):
 
 def combine_path_read(model, path_pre, path_name, path_postfix):
     path = join_path(path_pre, path_name, path_postfix)
-    lines = model.read()
+    lines = model.read(path)
     return lines
 
 def split_one_line_stored(line):
@@ -134,10 +135,36 @@ def split_one_line_stored(line):
 def is_odd(num):
     return num % 2 == 1
 
-def record_line_items(line_data, output_data):
+def record_line_keys(line_data):
     line_dict = split_one_line_stored(line_data)
-    for v in line_dict:
-        output_data.append(v)
+    return list(line_dict.keys())
+
+def record_line_key_values(line_data):
+    line_dict = split_one_line_stored(line_data)
+    return list(line_dict.items())
+
+def header_item_sort_key(e1, e2):
+    e1_index = -1
+    e2_index = -1
+    i = 0
+    size = len(header_item_in_order)
+    while i < size:
+        if e1 == header_item_in_order[i]:
+            e1_index = i
+        if e2 == header_item_in_order[i]:
+            e2_index = i
+        i += 1
+    if e1_index < e2_index:
+        return -1
+    elif e1_index > e2_index:
+        return 1
+    return 0
+
+def header_item_sort_tuple(e1, e2):
+    return header_item_sort_key(e1[0], e2[0])
+
+
+
 
 
 

@@ -1,8 +1,10 @@
 __author__ = 'xjt'
 
 #paths
-production_value_pre_path = 'production_value'
-truck_pre_path = names_pre_path = 'material'
+pre_path_production_value = 'production_value'
+pre_path_truck = names_pre_path = 'material'
+pre_path_xsl = 'stored\\personal_details'
+pre_path__product_value_stored = 'stored'
 
 
 
@@ -39,6 +41,17 @@ miles = '公里'
 drivers = '司机'
 from_to = '起止'
 
+header_item_in_order = []
+header_item_in_order.append(date)
+header_item_in_order.append(client)
+header_item_in_order.append(product_value)
+header_item_in_order.append(comment)
+header_item_in_order.append(truck_weight)
+header_item_in_order.append(oil)
+header_item_in_order.append(miles)
+header_item_in_order.append(drivers)
+header_item_in_order.append(from_to)
+
 
 
 #other terms
@@ -53,8 +66,8 @@ heavy_truck = '重车'
 too_heavy_truck = '超重车'
 
 #paths
-path_trucks = r'material\车牌.txt'
-path_drivers = r'material\姓名.txt'
+file_name_trucks = '车牌'
+file_name_drivers = '姓名'
 
 #delimiter
 driver_delimiter = ','

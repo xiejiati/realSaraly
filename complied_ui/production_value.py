@@ -15,7 +15,6 @@ class Ui_ProductValue(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("南峰货运")
         MainWindow.resize(1000, 1000)
-        MainWindow.setWindowIcon()
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.tableWidget = QtGui.QTableWidget(self.centralwidget)
@@ -62,7 +61,7 @@ class Ui_ProductValue(object):
         self.comboBox.setMinimumContentsLength(0)
         self.comboBox.setObjectName("comboBox")
 
-        self.trucks = util.truck_names()
+        self.trucks = util.get_truck_names()
         for i in range(len(self.trucks)+1):
             self.comboBox.addItem("")
 

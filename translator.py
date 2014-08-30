@@ -3,6 +3,7 @@ __author__ = 'xiejiati'
 
 from variables import *
 import util
+import functools
 
 class ProductValueTranslator:
     def stored_2_handler(self, lines):
@@ -71,18 +72,21 @@ class ProductValueTranslator:
 
     def stored_2_xls(self, input):
         output = []
-        titles = []
-        util.record_line_items(input[0], titles)
+        titles = util.record_line_keys(input[0])
+        titles.sort(key=functools.cmp_to_key(util.header_item_sort_key))
         output.append(titles)
         size = len(input)
         i = 0
         while i < size:
             line_items = []
             if util.is_odd(i):
-                for i in range(item_differences):
+                for j in range(item_differences):
                     line_items.append('')
-            util.record_line_items(input[i], line_items)
+            items = util.record_line_key_values(input[i])
+            for item in sorted(items, key=functools.cmp_to_key(util.header_item_sort_tuple)):
+                line_items.append(item[1])
             output.append(line_items)
+            i += 1
         return output
 
 

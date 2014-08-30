@@ -22,12 +22,13 @@ class ProductionValueHandler(QObject):
         self.model = model.CommonFileModel()
         self.translator = translator.ProductValueTranslator()
         self.computer = computer.ProductValueComputer()
+        self.xsl_model = model.XslModel()
         self.driver_truck_dict = {}
 
     def compute_export_slot(self):
         self.save_slot()
-        for name in self.__names__():
-            self.computer.product_value()
+        self.__print_product_value_orgin__('甲')
+
 
 
     def __print_product_value_orgin__(self, driver_name):
@@ -39,13 +40,15 @@ class ProductionValueHandler(QObject):
             if truck_name == '': return
             self.driver_truck_dict[driver_name] = truck_name
 
-        lines = util.combine_path_read(self.model, variables.truck_pre_path, truck_name, 'pv')
-        self.translator.stored_2_xls(lines)
+        lines = util.combine_path_read(self.model, variables.pre_path__product_value_stored, truck_name, 'pv')
+        data = self.translator.stored_2_xls(lines)
+        path = util.join_path(util.pre_path_xsl, driver_name, 'xls')
+        self.xsl_model.org_product_value_write(path, data)
 
 
     def __names__(self):
         path = util.join_path(variables.names_pre_path, \
-                              '名字', r'txt')
+                              variables.file_name_drivers, r'txt')
         lines = self.model.read(path)
         return util.lines_vaild_data(lines)
 
