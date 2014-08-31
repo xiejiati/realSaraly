@@ -8,14 +8,7 @@ pre_path__product_value_stored = 'stored'
 
 
 
-#weight of car
-heavy = 33
 
-#coefficient
-oil_per_mile_by_weight_coe = {}
-oil_per_mile_by_weight_coe['轻车'] = 4
-oil_per_mile_by_weight_coe['重车'] = 5
-oil_per_mile_by_weight_coe['超重车'] = 6
 
 money_per_liter = 7
 
@@ -61,9 +54,24 @@ first_record = '记录一'
 second_record = '记录二'
 personal = '个人'
 cooperative = '两人'
-light_truck = '轻车'
-heavy_truck = '重车'
-too_heavy_truck = '超重车'
+light_truck = '空车'
+first_level_heavy_truck = '重车'
+second_level_heavy_truck = '超重车'
+third_level_heavy_truck = '最重车'
+
+#weight of car
+oil_levels_weight_delimiter = {}
+oil_levels_weight_delimiter[first_level_heavy_truck] = 25.5
+oil_levels_weight_delimiter[second_level_heavy_truck] = 30.0
+
+
+
+#coefficient
+oil_per_mile_by_weight_coe = {}
+oil_per_mile_by_weight_coe[light_truck] = 0.27
+oil_per_mile_by_weight_coe[first_level_heavy_truck] = 0.4
+oil_per_mile_by_weight_coe[second_level_heavy_truck] = 0.45
+oil_per_mile_by_weight_coe[third_level_heavy_truck] = 0.5
 
 #paths
 file_name_trucks = '车牌'
@@ -76,3 +84,14 @@ stored_partition_delimiter = ':'
 
 #empty slot difference between first record and second record
 item_differences = 4
+total_columns = 8
+
+string_product_value = "产值"
+string_coe = '系数'
+string_value = '值'
+string_total = '合计'
+string_oil_single = '个人用油'
+string_oil_double = '两人用油'
+string_miles = '公里'
+string_oil_subsidy = '应补油量'
+

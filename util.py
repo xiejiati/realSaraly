@@ -32,10 +32,11 @@ def compute_miles_each_record(name, v, round, single, double, record):
 def weight_rules(weight):
     if weight == 0:
         return light_truck
-    elif weight < heavy:
-        return heavy_truck
-    else:
-        return too_heavy_truck
+    if weight < oil_levels_weight_delimiter[first_level_heavy_truck]:
+        return first_level_heavy_truck
+    if weight < oil_levels_weight_delimiter[second_level_heavy_truck]:
+        return second_level_heavy_truck
+    return third_level_heavy_truck
 
 #compute _oil
 def comput_oil(name, v, round, single, double):
@@ -55,8 +56,8 @@ def comput_oil_each_record(name, v, round, single, double, record):
 def heavy_dict_producer():
     dict = {}
     dict[light_truck] = 0
-    dict[heavy_truck] = 0
-    dict[too_heavy_truck] = 0
+    dict[first_level_heavy_truck] = 0
+    dict[second_level_heavy_truck] = 0
     return dict
 
 def record_array_producer():
@@ -74,8 +75,8 @@ def iter(fun, data, name, single, double):
 
 def oil_per_mile_by_weight(data):
     oil_per_mile_by_weight_util(data,light_truck)
-    oil_per_mile_by_weight_util(data,heavy_truck)
-    oil_per_mile_by_weight_util(data,too_heavy_truck)
+    oil_per_mile_by_weight_util(data,first_level_heavy_truck)
+    oil_per_mile_by_weight_util(data,second_level_heavy_truck)
 
 def oil_per_mile_by_weight_util(data, type):
     return data[type] * oil_per_mile_by_weight_coe[type]
@@ -162,6 +163,20 @@ def header_item_sort_key(e1, e2):
 
 def header_item_sort_tuple(e1, e2):
     return header_item_sort_key(e1[0], e2[0])
+
+def truck_name_by_driver_name(driver_truck_dict, driver_name):
+    truck_name = ''
+    if driver_truck_dict.get(driver_name):
+        truck_name = driver_truck_dict[driver_name]
+    else:
+        truck_name = truck_name_contains_driver(driver_name)
+        if truck_name == '': return
+        driver_truck_dict[driver_name] = truck_name
+    return  truck_name
+
+def xls_generate_line(container, *items):
+    container.append(items)
+
 
 
 

@@ -11,11 +11,17 @@ class ProductValueComputer:
         product_value[personal] = single[0]
         product_value[cooperative] = double[0]
         self._product_value = product_value
-        return self._product_value
+        return product_value
 
-    def money_product_value(self):
-        self._money_product_value = self._product_value[personal]*single_commission + self._product_value[cooperative]*double_commission
-        return self._money_product_value
+    def money_product_value(self, product_value):
+        return self.money_product_value_single(product_value[personal])+ \
+               self.money_product_value_double(product_value[cooperative])
+
+    def money_product_value_single(self, value):
+        return value*single_commission
+
+    def money_product_value_double(self, value):
+        return value*double_commission
 
     def miles(self, name, data):
         single = heavy_dict_producer()
@@ -27,19 +33,21 @@ class ProductValueComputer:
         self._miles = miles
         return self._miles
 
+
     def oil(self, name, data):
         single, double = record_array_producer()
         iter(comput_oil, data, name, single, double)
         oil = {}
         oil[personal] = single[0]
         oil[cooperative] = double[0]
-        self._oil = oil
-        return self._oil
+        return oil
 
-    def remaining_oil(self, name, data):
+
+
+    def remaining_oil(self, name, data, oil):
         miles = self._miles
         bonus = oil_per_mile_by_weight(miles[personal]) + oil_per_mile_by_weight(miles[cooperative])/2
-        self._remaining_oil = self._oil[personal]+self._oil[cooperative]/2 - bonus
+        self._remaining_oil = oil[personal]+oil[cooperative]/2 - bonus
         return self._remaining_oil
 
     def money_oil(self):

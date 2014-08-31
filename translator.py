@@ -13,11 +13,12 @@ class ProductValueTranslator:
         lastData = ''
         isSecondRound = False
         while lineNum < size:
-            line = lines[lineNum]
+            line_dict = util.split_one_line_stored(lines[lineNum])
+            line = '\t'.join(line_dict.values())
             lineNum += 1
             cols = line.strip().split()
             if cols == '': continue
-            if len(cols) > 8:
+            if len(cols) > total_columns:
                 data2 = {}
                 data2[client] = cols[1]
                 data2[product_value] = cols[2]

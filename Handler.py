@@ -27,24 +27,89 @@ class ProductionValueHandler(QObject):
 
     def compute_export_slot(self):
         self.save_slot()
-        self.__print_product_value_orgin__('甲')
+        xls_data = []
 
-
-
-    def __print_product_value_orgin__(self, driver_name):
-        truck_name = ''
-        if self.driver_truck_dict.get(driver_name):
-            truck_name = self.driver_truck_dict[driver_name]
-        else:
-            truck_name = util.truck_name_contains_driver(driver_name)
-            if truck_name == '': return
-            self.driver_truck_dict[driver_name] = truck_name
-
+        truck_name = util.truck_name_by_driver_name(self.driver_truck_dict, '甲')
         lines = util.combine_path_read(self.model, variables.pre_path__product_value_stored, truck_name, 'pv')
-        data = self.translator.stored_2_xls(lines)
-        path = util.join_path(util.pre_path_xsl, driver_name, 'xls')
-        self.xsl_model.org_product_value_write(path, data)
 
+        #orginal product value
+        data_org_product_value = self.translator.stored_2_xls(lines)
+        xls_data.append(data_org_product_value)
+
+        #total of product value
+        total_computer_input = self.translator.stored_2_handler(lines)
+        product_value_dict = {}
+        product_value_dict = self.computer.product_value('甲', total_computer_input)
+        data_product_value_money = []
+        util.xls_generate_line(data_product_value_money, '', variables.personal,
+                               variables.cooperative)
+        util.xls_generate_line(data_product_value_money, variables.string_product_value,
+                               product_value_dict[variables.personal],
+                               product_value_dict[variables.cooperative])
+        util.xls_generate_line(data_product_value_money, variables.string_coe,
+                               str(variables.single_commission),
+                               str(variables.double_commission))
+        util.xls_generate_line(data_product_value_money, variables.string_value,
+            str(self.computer.money_product_value_single(product_value_dict[variables.personal])),
+            str(self.computer.money_product_value_double(product_value_dict[variables.cooperative])))
+        util.xls_generate_line(data_product_value_money, variables.string_total, '',
+            str(self.computer.money_product_value(product_value_dict)))
+        xls_data.append(data_product_value_money)
+
+        data_miles = []
+        util.xls_generate_line(data_miles, '', variables.light_truck,
+                               variables.first_level_heavy_truck,
+                               variables.second_level_heavy_truck,
+                               variables.third_level_heavy_truck)
+        miles_dict = self.computer.miles('甲', total_computer_input)
+        util.xls_generate_line(data_miles, variables.string_miles,
+                               miles_dict[variables.personal][variables.light_truck],
+                               miles_dict[variables.personal][variables.first_level_heavy_truck],
+                               miles_dict[variables.personal][variables.second_level_heavy_truck],
+                               miles_dict[variables.personal][variables.third_level_heavy_truck])
+        util.xls_generate_line(data_miles, variables.string_miles,
+                               miles_dict[variables.cooperative][variables.light_truck],
+                               miles_dict[variables.cooperative][variables.first_level_heavy_truck],
+                               miles_dict[variables.cooperative][variables.second_level_heavy_truck],
+                               miles_dict[variables.cooperative][variables.third_level_heavy_truck])
+        util.xls_generate_line(data_miles, variables.string_total,
+        miles_dict[variables.personal][variables.light_truck]+ miles_dict[variables.cooperative][variables.light_truck],
+        miles_dict[variables.personal][variables.first_level_heavy_truck]+ miles_dict[variables.cooperative][variables.first_level_heavy_truck],
+        miles_dict[variables.personal][variables.second_level_heavy_truck]+ miles_dict[variables.cooperative][variables.second_level_heavy_truck],
+        miles_dict[variables.personal][variables.third_level_heavy_truck]+ miles_dict[variables.cooperative][variables.third_level_heavy_truck],
+        )
+        util.xls_generate_line(data_miles, variables.string_coe,
+                               variables.oil_per_mile_by_weight_coe[variables.light_truck],
+                               variables.oil_per_mile_by_weight_coe[variables.first_level_heavy_truck],
+                               variables.oil_per_mile_by_weight_coe[variables.second_level_heavy_truck],
+                               variables.oil_per_mile_by_weight_coe[variables.third_level_heavy_truck]
+                               )
+
+        xls_data.append(data_miles)
+
+
+
+
+        
+        
+
+
+
+
+
+
+
+
+
+        path = util.join_path(util.pre_path_xsl, '甲', 'xls')
+        self.xsl_model.org_product_value_write(path, xls_data)
+
+
+
+
+    def __print_product_value_money__(self, driver_name, truck_name, lines):
+        data = self.translator.stored_2_handler(lines)
+        self.computer._product_value(driver_name, data)
 
     def __names__(self):
         path = util.join_path(variables.names_pre_path, \
