@@ -7,53 +7,49 @@ import functools
 
 class ProductValueTranslator:
     def stored_2_handler(self, lines):
-        size = len(lines)
-        lineNum = 0
+        line_cols = len(lines)
+        line_num = 0
         data = {}
-        lastData = ''
+        lastDate = ''
         isSecondRound = False
-        while lineNum < size:
-            line_dict = util.split_one_line_stored(lines[lineNum])
-            line = '\t'.join(line_dict.values())
-            lineNum += 1
-            cols = line.strip().split()
-            if cols == '': continue
-            if len(cols) > total_columns:
+        while line_num < line_cols:
+            line_dict = util.split_one_line_stored(lines[line_num])
+            line_item_cols = len(line_dict)
+            line_num += 1
+            if line_item_cols > total_columns:
                 data2 = {}
-                data2[client] = cols[1]
-                data2[product_value] = cols[2]
-                data2[comment] = cols[3]
                 data3 = {}
-                data3[truck_weight] = cols[4]
-                data3[oil] = cols[5]
-                data3[miles] = cols[6]
-                data3[drivers] = cols[7].split(driver_delimiter)
-                data3[from_to] = cols[8].split(from_to_delimiter)
+                data2[client] = line_dict[client]
+                data2[product_value] = line_dict[product_value]
+                data2[comment] = line_dict[comment]
+
+                data3[truck_weight] = line_dict[truck_weight]
+                data3[oil] = line_dict[oil]
+                data3[miles] = line_dict[miles]
+                data3[drivers] = line_dict[drivers].strip().split(driver_delimiter)
+                data3[from_to] = line_dict[from_to].strip().split(from_to_delimiter)
                 data2[first_record] = data3
-                isSecondRound = lastData == cols[0]
+                isSecondRound = lastDate == line_dict[date]
                 if isSecondRound:
-                    data[cols[0]][second_round] = data2
+                    data[line_dict[date]][second_round] = data2
                 else:
                     data1 ={}
                     data1[first_round] = data2
-                    data[cols[0]] = data1
+                    data[line_dict[date]] = data1
 
-                lastData = cols[0]
+                lastDate = line_dict[date]
             else:
                 data3 = {}
-                data3[truck_weight] = cols[0]
-                data3[oil] = cols[1]
-                data3[miles] = cols[2]
-                data3[drivers] = cols[3].split(driver_delimiter)
-                data3[from_to] = cols[4].split(from_to_delimiter)
+                data3[truck_weight] = line_dict[truck_weight]
+                data3[oil] = line_dict[oil]
+                data3[miles] = line_dict[miles]
+                data3[drivers] = line_dict[drivers].strip().split(driver_delimiter)
+                data3[from_to] = line_dict[from_to].strip().split(from_to_delimiter)
                 if isSecondRound:
-                    data[lastData][second_round][second_record] = data3
+                    data[lastDate][second_round][second_record] = data3
                 else:
-                    data[lastData][first_round][second_record] = data3
+                    data[lastDate][first_round][second_record] = data3
         return data
-
-    def view_2_handler(self):
-        pass
 
     def view_2_stored(self, data):
         lines = []

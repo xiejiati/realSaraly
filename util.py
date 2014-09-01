@@ -6,19 +6,28 @@ import model
 import translator
 
 def compute_product_value(name, v, round, single, double):
-    lstDriver = v[round][first_record][drivers]
+    compute_product_each_record(name, v, round, single, double, first_record)
+    compute_product_each_record(name, v, round, single, double, second_record)
+
+
+def compute_product_each_record(name, v, round, single, double, record):
+    lstDriver = v[round][record][drivers]
     nDriver = len(lstDriver)
     if name in lstDriver:
         if nDriver == 1:
-            single[0] += float(v[round][product_value])
+            single[0] += float(v[round][product_value])/2
         elif nDriver == 2:
-            double[0] += float(v[round][product_value])/2
-
-
+            double[0] += float(v[round][product_value])/4
 
 def compute_miles(name, v, round, single, double):
     compute_miles_each_record(name, v, round, single, double, first_record)
     compute_miles_each_record(name, v, round, single, double, second_record)
+
+def miles_init(dict):
+    dict[light_truck] = 0.0
+    dict[first_level_heavy_truck] = 0.0
+    dict[second_level_heavy_truck] = 0.0
+    dict[third_level_heavy_truck] = 0.0
 
 def compute_miles_each_record(name, v, round, single, double, record):
     lstDriver = v[round][record][drivers]

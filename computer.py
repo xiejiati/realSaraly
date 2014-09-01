@@ -25,6 +25,8 @@ class ProductValueComputer:
     def miles(self, name, data):
         single = heavy_dict_producer()
         double = heavy_dict_producer()
+        miles_init(single)
+        miles_init(double)
         iter(compute_miles, data, name, single, double)
         miles = {}
         miles[personal] = single

@@ -28,25 +28,24 @@ class CommonFileModel:
 class XslModel():
     def personal_detail_write(self, path, data):
         file = xlwt.Workbook(encoding='utf-8')
+        style = xlwt.easyxf('align: wrap on')
         table = file.add_sheet('sheet1', cell_overwrite_ok=True)
         size = len(data)
+        cur_index = 0
         i = 0
-        while i < size:
-            data1 = data[i]
+        while cur_index < size:
+            data1 = data[cur_index]
             data1_rows = len(data1)
-            for j in range(data1_rows):
-                data2 = data1[j]
+            for data1_row in range(data1_rows):
+                data2 = data1[data1_row]
                 data2_cols = len(data2)
+                for j in range(data2_cols):
+                    if str(data2[j]) == '':  continue
+                    table.write(i, j, data2[j], style)
+                i += 1
 
+            cur_index += 1
             i += 1
-
-        line1 = data[0]
-        cols = len(line1)
-        rows = len(data)
-        for i in range(rows):
-            for j in range(cols):
-                content = data[i][j]
-                table.write(i, j, content.strip())
         file.save(path)
 
 

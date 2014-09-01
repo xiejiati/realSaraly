@@ -17,18 +17,17 @@ class ProdutionValueView:
                 if util.if_need_not_record(i, j):
                     continue
                 header = table.horizontalHeaderItem(j).text().strip()
-                item = table.item(i, j)
-                if (not item) or '' == item.text().strip():
+                item_text = table.item(i, j).text().strip()
+                if header == variables.truck_weight and  item_text == '':
+                    data1[header] = str(0)
+                elif item_text != '':
+                    data1[header] = item_text
+                else:
                     valid_item_count += 1
-                    if valid_item_count == colCnt:
+                    if valid_item_count >= colCnt-1:
                         return data
                     else:
                         continue
-                item_text = item.text().strip()
-                if header == variables.truck_weight and  item_text == '':
-                    data1[header] = str(0)
-                else:
-                    data1[header] = item_text
             if len(data1) > 0:
                 data.append(data1)
         return data
@@ -44,7 +43,9 @@ class ProdutionValueView:
                     continue
                 table_item = table.item(i, j)
                 if table_item:
-                    table_item.setText(data[i][table.horizontalHeaderItem(j).text().strip()])
+                    key = table.horizontalHeaderItem(j).text().strip()
+                    if data[i] and isinstance(data[i], dict) and data[i].get(key):
+                        table_item.setText(data[i][key])
 
     def current_truck_name(self, ui):
         return ui.comboBox.itemText(self.truck_combox_index(ui)).strip()
