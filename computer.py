@@ -10,7 +10,6 @@ class ProductValueComputer:
         product_value = {}
         product_value[personal] = single[0]
         product_value[cooperative] = double[0]
-        self._product_value = product_value
         return product_value
 
     def money_product_value(self, product_value):
@@ -30,8 +29,7 @@ class ProductValueComputer:
         miles = {}
         miles[personal] = single
         miles[cooperative] = double
-        self._miles = miles
-        return self._miles
+        return miles
 
 
     def oil(self, name, data):
@@ -42,17 +40,27 @@ class ProductValueComputer:
         oil[cooperative] = double[0]
         return oil
 
+    def oil_total_own(self, oil_dict):
+        return oil_dict[personal] + oil_dict[cooperative]
 
+    def oil_saved(self, oil_own, oil_subsidy):
+        return oil_subsidy - oil_own
 
-    def remaining_oil(self, name, data, oil):
-        miles = self._miles
-        bonus = oil_per_mile_by_weight(miles[personal]) + oil_per_mile_by_weight(miles[cooperative])/2
-        self._remaining_oil = oil[personal]+oil[cooperative]/2 - bonus
-        return self._remaining_oil
+    def oil_n_miles(self, miles, oil_per_mile):
+        return miles*oil_per_mile
 
-    def money_oil(self):
-        self._money_oil = self._remaining_oil * money_per_liter
-        return self._money_oil
+    def miles_level_total(self, miles_dict, truck_level):
+        return miles_dict[personal][truck_level]+ miles_dict[cooperative][truck_level]
+
+    def oil_subsidy_total(self, miles_dict):
+        return self.oil_n_miles(self.miles_level_total(miles_dict, light_truck), oil_per_mile_by_weight_coe[light_truck]) +\
+                self.oil_n_miles(self.miles_level_total(miles_dict, first_level_heavy_truck), oil_per_mile_by_weight_coe[first_level_heavy_truck]) +\
+                self.oil_n_miles(self.miles_level_total(miles_dict, second_level_heavy_truck), oil_per_mile_by_weight_coe[second_level_heavy_truck]) +\
+                self.oil_n_miles(self.miles_level_total(miles_dict, third_level_heavy_truck), oil_per_mile_by_weight_coe[third_level_heavy_truck])
+
+    def money_oil_saved(self, oil_saved):
+        return oil_saved * money_per_liter
+
 
 class OtherFee:
     def tel_ss_remaining(self, days_off, tel_charge):

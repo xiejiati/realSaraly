@@ -26,9 +26,20 @@ class CommonFileModel:
             f.writelines(lines)
 
 class XslModel():
-    def org_product_value_write(self, path, data):
+    def personal_detail_write(self, path, data):
         file = xlwt.Workbook(encoding='utf-8')
         table = file.add_sheet('sheet1', cell_overwrite_ok=True)
+        size = len(data)
+        i = 0
+        while i < size:
+            data1 = data[i]
+            data1_rows = len(data1)
+            for j in range(data1_rows):
+                data2 = data1[j]
+                data2_cols = len(data2)
+
+            i += 1
+
         line1 = data[0]
         cols = len(line1)
         rows = len(data)

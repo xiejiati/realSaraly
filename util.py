@@ -10,9 +10,9 @@ def compute_product_value(name, v, round, single, double):
     nDriver = len(lstDriver)
     if name in lstDriver:
         if nDriver == 1:
-            single[0] += int(v[round][product_value])
+            single[0] += float(v[round][product_value])
         elif nDriver == 2:
-            double[0] += int(v[round][product_value])
+            double[0] += float(v[round][product_value])/2
 
 
 
@@ -25,9 +25,9 @@ def compute_miles_each_record(name, v, round, single, double, record):
     nDriver = len(lstDriver)
     if name in lstDriver:
         if nDriver == 1:
-            single[weight_rules(int(v[round][record][truck_weight]))] += int(v[round][record][miles])
+            single[weight_rules(float(v[round][record][truck_weight]))] += float(v[round][record][miles])
         elif nDriver == 2:
-            double[weight_rules(int(v[round][record][truck_weight]))] += int(v[round][record][miles])
+            double[weight_rules(float(v[round][record][truck_weight]))] += float(v[round][record][miles])/2
 
 def weight_rules(weight):
     if weight == 0:
@@ -48,9 +48,9 @@ def comput_oil_each_record(name, v, round, single, double, record):
     nDriver = len(lstDriver)
     if name in lstDriver:
         if nDriver == 1:
-            single[0] += int(v[round][record][oil])
+            single[0] += float(v[round][record][oil])
         elif nDriver == 2:
-            double[0] += int(v[round][record][oil])
+            double[0] += float(v[round][record][oil])/2
 
 
 def heavy_dict_producer():

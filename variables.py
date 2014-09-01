@@ -86,12 +86,20 @@ stored_partition_delimiter = ':'
 item_differences = 4
 total_columns = 8
 
-string_product_value = "产值"
-string_coe = '系数'
-string_value = '值'
+string_product_value = "产值（元）"
+string_coe = '提成'
+string_value = '值（元）'
 string_total = '合计'
-string_oil_single = '个人用油'
-string_oil_double = '两人用油'
-string_miles = '公里'
-string_oil_subsidy = '应补油量'
+string_oil_single = '个人用油（升）'
+string_oil_double = '两人用油（升）'
+string_oil_subsidy_per_mile = '每公里补油（升）'
+string_miles_single = '单人公里'
+string_miles_double = '两人公里'
+string_oil_subsidy = '应补油量（升）'
+string_oil_own_single = '个人加油（升）'
+string_oil_own_double = '两人加油/2（升）'
+string_oil_saved = '省下的油（升）'
+string_money_per_oil_liter = '每升油补（元/升）'
+string_money_oil_saved = '油费补贴（元）'
+
 
