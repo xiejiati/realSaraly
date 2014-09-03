@@ -26,10 +26,10 @@ class CommonFileModel:
             f.writelines(lines)
 
 class XslModel():
-    def personal_detail_write(self, path, data):
+    def write(self, path, data, sheet_name, if_add_empty_line=True):
         file = xlwt.Workbook(encoding='utf-8')
         style = xlwt.easyxf('align: wrap on')
-        table = file.add_sheet('sheet1', cell_overwrite_ok=True)
+        table = file.add_sheet(sheet_name, cell_overwrite_ok=True)
         size = len(data)
         cur_index = 0
         i = 0
@@ -42,7 +42,8 @@ class XslModel():
                 for j in range(data2_cols):
                     if str(data2[j]) == '':  continue
                     table.write(i, j, data2[j], style)
-                i += 1
+                if if_add_empty_line:
+                    i += 1
 
             cur_index += 1
             i += 1

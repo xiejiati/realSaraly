@@ -1,10 +1,13 @@
 __author__ = 'xjt'
 
+import copy
+
 #paths
 pre_path_production_value = 'production_value'
 pre_path_truck = names_pre_path = 'material'
-pre_path_xsl = 'stored\\personal_details'
-pre_path__product_value_stored = 'stored'
+pre_path_personal_details_xsl = 'stored\\personal_details'
+pre_path_sum_xsl = 'stored'
+pre_path__product_value_stored = 'stored\\truck_details'
 pre_path_other_fee = 'stored'
 
 
@@ -24,9 +27,6 @@ double_commission = 0.09
 #tel charge and social security
 money_per_dayoff  = 17
 tel_subside = 100
-
-#path prefix
-path_product_value_package = r'stored'
 
 #alias of ui
 date = '日期'
@@ -127,5 +127,43 @@ string_other_fee_deduction_per_day = '每天扣钱（元）'
 string_other_fee_days_off_deduction = '请假扣钱（元）'
 string_other_fee_actual_phone_fee = '实际话费（元）'
 string_other_fee_phone_fee_deduction = '话费应扣（元）'
+string_other_fee_deduction = '扣款（元）'
+string_other_fee_comment = '扣款事项'
+
+string_personal_detail = '个人明细'
+
+string_sum_truck = '车号'
+string_sum_driver = '司机'
+string_sum_product_value = '产值'
+string_sum_remaining_oil = '省/耗油'
+string_sum_money_oil = '油款'
+string_sum_commission = '工资提成'
+string_sum_tie = '补胎费'
+string_sum_tel_ss = '话费社保'
+string_sum_deduction = '扣款'
+string_sum_deduction_reason = '扣款原因'
+string_sum_total = "实发工资"
+
+string_sum_items = []
+string_sum_items.append(string_sum_truck)
+string_sum_items.append(string_sum_driver)
+string_sum_items.append(string_sum_product_value)
+string_sum_items.append(string_sum_remaining_oil)
+string_sum_items.append(string_sum_money_oil)
+string_sum_items.append(string_sum_commission)
+string_sum_items.append(string_sum_tie)
+string_sum_items.append(string_sum_tel_ss)
+string_sum_items.append(string_sum_deduction)
+string_sum_items.append(string_sum_deduction_reason)
+string_sum_items.append(string_sum_total)
+
+
+coe_tie = 0.1
+coe_salary = 0.9
+
+string_salary_table = '工资表'
+string_salary_sheet = '工资条'
+
+
 
 

@@ -154,14 +154,21 @@ def record_line_key_values(line_data):
     return list(line_dict.items())
 
 def header_item_sort_key(e1, e2):
+    return cmp_fun(e1, e2, header_item_in_order)
+
+def sum_sort_cmp(e1, e2):
+    return cmp_fun(e1[0],e2[0], string_sum_items)
+
+
+def cmp_fun(e1, e2, sort_array):
     e1_index = -1
     e2_index = -1
     i = 0
-    size = len(header_item_in_order)
+    size = len(sort_array)
     while i < size:
-        if e1 == header_item_in_order[i]:
+        if e1 == sort_array[i]:
             e1_index = i
-        if e2 == header_item_in_order[i]:
+        if e2 == sort_array[i]:
             e2_index = i
         i += 1
     if e1_index < e2_index:

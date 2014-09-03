@@ -10,6 +10,7 @@ import model
 import variables
 import util
 from final_ui.other_fee_ui import *
+import functools
 
 class ProductionValueHandler(QObject):
     def __init__(self):
@@ -32,17 +33,56 @@ class ProductionValueHandler(QObject):
         self.other_fee_computer = computer.OtherFeeComputer()
         self.driver_truck_dict = {}
 
-    def compute_export_slot(self):
+    def other_fee_save_slot(self):
         self.save_slot()
+        sum_data = self.__personal_detail__()
+        self.__salary_list__(sum_data)
+
+    def __salary_list__(self, data):
+        xls_data = []
+        xls_head_data = []
+        xls_head_data.append('序')
+        xls_head_data.extend(variables.string_sum_items)
+        xls_data.append(xls_head_data)
+        i = 0
+        for data1 in data:
+            i += 1
+            items = list(data1.items())
+            items.sort(key=functools.cmp_to_key(util.sum_sort_cmp))
+            out_data1 = []
+            out_data1.append(i)
+            out_data1.extend([item[1] for item in items])
+            xls_data.append(out_data1)
+
+        path = util.join_path(variables.pre_path_sum_xsl, variables.string_salary_table, 'xls')
+        self.xsl_model.write(path, xls_data, variables.string_salary_table, False)
+
+        xls_data_salary_sheet =  xls_data[1:]
+        j = 0
+        for line in xls_data_salary_sheet:
+            xls_data_salary_sheet[j] = line[1:]
+            j += 1
+
+        path = util.join_path(variables.pre_path_sum_xsl, variables.string_salary_sheet, 'xls')
+        self.xsl_model.write(path, xls_data_salary_sheet, variables.string_salary_sheet)
+
+    def __personal_detail__(self):
+        out_data = []
         path_names = util.join_path(variables.names_pre_path, \
                               variables.file_name_drivers, r'txt')
         lines_name = self.model.read(path_names)
         lines_name = util.lines_vaild_data(lines_name)
         for driver_name in lines_name:
+            out_data1 = {}
+            out_data1[variables.string_sum_driver] = driver_name
+
             xls_data = []
             driver_name = driver_name.strip()
             truck_name = util.truck_name_by_driver_name(self.driver_truck_dict, driver_name)
             if not truck_name: return
+
+            #truck_name
+            out_data1[variables.string_sum_truck] = truck_name
             lines = util.combine_path_read(self.model, variables.pre_path__product_value_stored, truck_name, 'pv')
 
             #orginal product value
@@ -63,9 +103,16 @@ class ProductionValueHandler(QObject):
                                    variables.single_commission, variables.double_commission)
             util.xls_generate_line(data_product_value_money, variables.string_value,
                                    self.computer.money_product_value_single(product_value_dict[variables.personal]),
-                                   self.computer.money_product_value_double(product_value_dict[variables.cooperative]))
+                                   self.computer.money_product_value_double(product_value_dict[variables.cooperative])
+                                    )
+            product_value_total = self.computer.money_product_value(product_value_dict)
+
+            #total product_value:including single and double
+            out_data1[variables.string_sum_product_value] = product_value_total
+            out_data1[variables.string_sum_tie] = self.computer.money_tie_in_product_value(product_value_total)
+            out_data1[variables.string_sum_commission] = self.computer.money_product_value_single(product_value_total)
             util.xls_generate_line(data_product_value_money, variables.string_total,
-                                   self.computer.money_product_value(product_value_dict))
+                                   product_value_total)
             xls_data.append(data_product_value_money)
 
             data_miles = []
@@ -122,11 +169,19 @@ class ProductionValueHandler(QObject):
             oil_own = self.computer.oil_total_own(oil_dict)
             util.xls_generate_line(data_oil, variables.string_total, oil_own)
             oil_saved = self.computer.oil_saved(oil_own, oil_subsidy)
+
+            #oil saved
+            out_data1[variables.string_sum_remaining_oil] = oil_saved
+
             util.xls_generate_line(data_oil, variables.string_oil_saved, oil_saved)
             util.xls_generate_line(data_oil, variables.string_money_per_oil_liter,
                                    variables.money_per_liter)
+            money_oil_saved = self.computer.money_oil_saved(oil_saved)
+
+            #money_oil_saved
+            out_data1[variables.string_sum_money_oil] = money_oil_saved
             util.xls_generate_line(data_oil, variables.string_money_oil_saved,
-                                   self.computer.money_oil_saved(oil_saved))
+                                   money_oil_saved)
             xls_data.append(data_oil)
 
             #other fee
@@ -139,24 +194,54 @@ class ProductionValueHandler(QObject):
             if other_fee_record:
                 data_other_fee = []
                 util.xls_generate_line(data_other_fee, variables.other_fee_days_off,
-                                       other_fee_record[variables.other_fee_days_off])
+                                       float(other_fee_record[variables.other_fee_days_off]))
                 util.xls_generate_line(data_other_fee, variables.string_other_fee_deduction_per_day,
                                        variables.money_per_dayoff)
                 money_deduction_days_off = self.other_fee_computer.deduction_days_off(float(other_fee_record[variables.other_fee_days_off]))
                 util.xls_generate_line(data_other_fee, variables.string_other_fee_days_off_deduction,
                                         money_deduction_days_off)
                 util.xls_generate_line(data_other_fee, variables.string_other_fee_actual_phone_fee,
-                                       other_fee_record[variables.other_fee_phone_fee])
+                                       float(other_fee_record[variables.other_fee_phone_fee]))
                 phone_fee_deduction = self.other_fee_computer.deduction_phone_fee(float(other_fee_record[variables.other_fee_phone_fee]))
                 util.xls_generate_line(data_other_fee, variables.string_other_fee_phone_fee_deduction,
                                        phone_fee_deduction)
-                util.xls_generate_line(data_other_fee, variables.string_total,
-                self.other_fee_computer.phone_fee_days_off_deduction(phone_fee_deduction, money_deduction_days_off))
+                money_phone_fee_ss = self.other_fee_computer.phone_fee_days_off_deduction(phone_fee_deduction, money_deduction_days_off)
+
+                #phone fee and ss
+                out_data1[variables.string_sum_tel_ss] = money_phone_fee_ss
+
+                deduction_fee_string = str(other_fee_record[variables.other_fee_deduction])
+                deduction_fee_float = 0.0
+                if deduction_fee_string == '':
+                    deduction_fee_float = float(0)
+                else:
+                    deduction_fee_float = float(deduction_fee_string)
+                out_data1[variables.string_sum_deduction] = deduction_fee_float
+                util.xls_generate_line(data_other_fee, variables.string_other_fee_deduction,
+                                       deduction_fee_float)
+
+                deduction_total = self.other_fee_computer.deduction_total(money_phone_fee_ss,
+                                deduction_fee_float)
+
+                util.xls_generate_line(data_other_fee, variables.string_total, deduction_total)
+                out_data1[variables.string_sum_deduction_reason] = other_fee_record[other_fee_comment]
+                util.xls_generate_line(data_other_fee, variables.string_other_fee_comment,
+                                       other_fee_record[other_fee_comment])
+
                 xls_data.append(data_other_fee)
 
-            path = util.join_path(util.pre_path_xsl, driver_name, 'xls')
-            self.xsl_model.personal_detail_write(path, xls_data)
 
+            out_data1[string_sum_total] = computer.actual_salary(product_value_total,
+                                   money_oil_saved,
+                                   out_data1[variables.string_sum_tel_ss],
+                                   out_data1[variables.string_sum_deduction]
+                                   )
+
+            out_data.append(out_data1)
+
+            path = util.join_path(util.pre_path_personal_details_xsl, driver_name, 'xls')
+            self.xsl_model.write(path, xls_data, variables.string_personal_detail)
+            return out_data
 
     def save_slot(self):
         if self.view.truck_combox_index(self.ui) == 0:
@@ -175,7 +260,7 @@ class ProductionValueHandler(QObject):
         self.lastComboxIdx = index
 
         current_truck_name = self.view.current_truck_name(self.ui)
-        path = util.join_path(variables.path_product_value_package, current_truck_name, r'pv')
+        path = util.join_path(variables.pre_path__product_value_stored, current_truck_name, r'pv')
         lines = self.model.read(path)
         if lines:
             lines = self.translator.stored_2_view(lines)
@@ -203,7 +288,7 @@ class ProductionValueHandler(QObject):
     def __save_from_view_2_stored__(self, truck_name):
         data = self.view.read(self.ui)
         lines = self.translator.view_2_stored(data)
-        path = util.join_path(variables.path_product_value_package, truck_name, r'pv')
+        path = util.join_path(variables.pre_path__product_value_stored, truck_name, r'pv')
         self.model.write(lines, path)
 
     def ui_show(self):

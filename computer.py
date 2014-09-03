@@ -22,6 +22,12 @@ class ProductValueComputer:
     def money_product_value_double(self, value):
         return value*double_commission
 
+    def money_tie_in_product_value(self, product_value_total):
+        return product_value_total * coe_tie
+
+    def money_salary_in_product_value(self, product_value_total):
+        return product_value_total * coe_salary
+
     def miles(self, name, data):
         single = heavy_dict_producer()
         double = heavy_dict_producer()
@@ -76,3 +82,10 @@ class OtherFeeComputer:
 
     def deduction_phone_fee(self, actual_phone_fee):
         return 100 - actual_phone_fee
+
+    def deduction_total(self, phone_days_off, other):
+        return phone_days_off+other
+
+def actual_salary(product_value, oil, phone_ss, deduction):
+    return product_value+oil+phone_ss+deduction
+
