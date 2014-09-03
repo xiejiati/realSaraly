@@ -188,7 +188,7 @@ def xls_generate_line(container, *items):
 
 def other_fee_record_by_name(lines, driver_name):
     for line in lines:
-        if driver_name == lines[other_fee_name]:
+        if driver_name == line[other_fee_name]:
             return line
 
 

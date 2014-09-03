@@ -134,25 +134,25 @@ class ProductionValueHandler(QObject):
                               variables.postfix_other_fee)
             lines = self.model.read(path)
             assert (lines)
-            self.other_fee_translator.stored_2_handler(lines)
-            other_fee_record = util.other_fee_record_by_name(lines, driver_name)
-
-            data_other_fee = []
-            util.xls_generate_line(data_other_fee, variables.other_fee_days_off,
-                                   other_fee_record[variables.other_fee_days_off])
-            util.xls_generate_line(data_other_fee, variables.string_other_fee_deduction_per_day,
-                                   variables.money_per_dayoff)
-            money_deduction_days_off = self.other_fee_computer.deduction_days_off(other_fee_record[variables.other_fee_days_off])
-            util.xls_generate_line(data_other_fee, variables.string_other_fee_days_off_deduction,
-                                    money_deduction_days_off)
-            util.xls_generate_line(data_other_fee, variables.string_other_fee_actual_phone_fee,
-                                   other_fee_record[variables.other_fee_phone_fee])
-            phone_fee_deduction = self.other_fee_computer.deduction_phone_fee(other_fee_record[variables.other_fee_phone_fee])
-            util.xls_generate_line(data_other_fee, variables.string_other_fee_phone_fee_deduction,
-                                   phone_fee_deduction)
-            util.xls_generate_line(data_other_fee, variables.string_total,
-            self.other_fee_computer.phone_fee_days_off_deduction(phone_fee_deduction, money_deduction_days_off))
-
+            other_fee_handler_data = self.other_fee_translator.stored_2_handler(lines)
+            other_fee_record = util.other_fee_record_by_name(other_fee_handler_data, driver_name)
+            if other_fee_record:
+                data_other_fee = []
+                util.xls_generate_line(data_other_fee, variables.other_fee_days_off,
+                                       other_fee_record[variables.other_fee_days_off])
+                util.xls_generate_line(data_other_fee, variables.string_other_fee_deduction_per_day,
+                                       variables.money_per_dayoff)
+                money_deduction_days_off = self.other_fee_computer.deduction_days_off(float(other_fee_record[variables.other_fee_days_off]))
+                util.xls_generate_line(data_other_fee, variables.string_other_fee_days_off_deduction,
+                                        money_deduction_days_off)
+                util.xls_generate_line(data_other_fee, variables.string_other_fee_actual_phone_fee,
+                                       other_fee_record[variables.other_fee_phone_fee])
+                phone_fee_deduction = self.other_fee_computer.deduction_phone_fee(float(other_fee_record[variables.other_fee_phone_fee]))
+                util.xls_generate_line(data_other_fee, variables.string_other_fee_phone_fee_deduction,
+                                       phone_fee_deduction)
+                util.xls_generate_line(data_other_fee, variables.string_total,
+                self.other_fee_computer.phone_fee_days_off_deduction(phone_fee_deduction, money_deduction_days_off))
+                xls_data.append(data_other_fee)
 
             path = util.join_path(util.pre_path_xsl, driver_name, 'xls')
             self.xsl_model.personal_detail_write(path, xls_data)
