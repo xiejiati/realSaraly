@@ -4,6 +4,7 @@ __author__ = 'xjt'
 from variables import *
 import model
 import translator
+import xlwt
 
 def compute_product_value(name, v, round, single, double):
     compute_product_each_record(name, v, round, single, double, first_record)
@@ -197,6 +198,28 @@ def other_fee_record_by_name(lines, driver_name):
     for line in lines:
         if driver_name == line[other_fee_name]:
             return line
+
+def open_work_book(path, sheet_name):
+        file = xlwt.Workbook(encoding='utf-8')
+        style = xlwt.easyxf('align: wrap on')
+        table = file.add_sheet(sheet_name, cell_overwrite_ok=True)
+        return file, table, style
+
+def single_array_write(data, table, style, num_lines, if_add_empty_line=False):
+    i = 0
+    index = 0
+    while index < num_lines:
+        data1 = data[index]
+        size_data1 = len(data1)
+        for j in range(size_data1):
+            if str(data1[j]) == '' : continue
+            table.write(i, j, data1[j], style)
+        if if_add_empty_line:
+            i += 1
+
+        index += 1
+        i += 1
+
 
 
 

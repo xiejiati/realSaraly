@@ -16,12 +16,12 @@ class ProductValueTranslator:
             line_dict = util.split_one_line_stored(lines[line_num])
             line_item_cols = len(line_dict)
             line_num += 1
-            if line_item_cols > total_columns:
+            if line_item_cols > second_record_cols:
                 data2 = {}
                 data3 = {}
                 data2[client] = line_dict[client]
                 data2[product_value] = line_dict[product_value]
-                data2[comment] = line_dict[comment]
+                data2[comment] = line_dict.setdefault(comment, '')
 
                 data3[truck_weight] = line_dict[truck_weight]
                 data3[oil] = line_dict[oil]

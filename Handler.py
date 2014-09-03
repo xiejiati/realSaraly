@@ -33,7 +33,7 @@ class ProductionValueHandler(QObject):
         self.other_fee_computer = computer.OtherFeeComputer()
         self.driver_truck_dict = {}
 
-    def other_fee_save_slot(self):
+    def compute_export_slot(self):
         self.save_slot()
         sum_data = self.__personal_detail__()
         self.__salary_list__(sum_data)
@@ -55,16 +55,23 @@ class ProductionValueHandler(QObject):
             xls_data.append(out_data1)
 
         path = util.join_path(variables.pre_path_sum_xsl, variables.string_salary_table, 'xls')
-        self.xsl_model.write(path, xls_data, variables.string_salary_table, False)
+        self.xsl_model.single_array_write(path, xls_data, variables.string_salary_table, False)
 
-        xls_data_salary_sheet =  xls_data[1:]
-        j = 0
+        xls_data_salary_sheet = []
+        header = xls_data[0][1:]
+        j = 1
+        num_line = len(xls_data)
+        while j < num_line:
+            xls_data_salary_sheet.append(header)
+
+        j = 1
         for line in xls_data_salary_sheet:
+
             xls_data_salary_sheet[j] = line[1:]
             j += 1
 
         path = util.join_path(variables.pre_path_sum_xsl, variables.string_salary_sheet, 'xls')
-        self.xsl_model.write(path, xls_data_salary_sheet, variables.string_salary_sheet)
+        self.xsl_model.single_array_write(path, xls_data_salary_sheet, variables.string_salary_sheet)
 
     def __personal_detail__(self):
         out_data = []
@@ -240,7 +247,7 @@ class ProductionValueHandler(QObject):
             out_data.append(out_data1)
 
             path = util.join_path(util.pre_path_personal_details_xsl, driver_name, 'xls')
-            self.xsl_model.write(path, xls_data, variables.string_personal_detail)
+            self.xsl_model.multi_array_write(path, xls_data, variables.string_personal_detail)
             return out_data
 
     def save_slot(self):

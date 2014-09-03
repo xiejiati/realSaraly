@@ -90,6 +90,7 @@ stored_partition_delimiter = ':'
 #empty slot difference between first record and second record
 item_differences = 4
 total_columns = 8
+second_record_cols = 5
 
 string_product_value = "产值（元）"
 string_coe = '提成'
