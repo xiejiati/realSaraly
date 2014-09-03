@@ -5,6 +5,11 @@ pre_path_production_value = 'production_value'
 pre_path_truck = names_pre_path = 'material'
 pre_path_xsl = 'stored\\personal_details'
 pre_path__product_value_stored = 'stored'
+pre_path_other_fee = 'stored'
+
+
+postfix_other_fee = 'of'
+file_name_other_fee = '话费'
 
 
 
@@ -101,5 +106,26 @@ string_oil_own_double = '两人加油/2（升）'
 string_oil_saved = '省下的油（升）'
 string_money_per_oil_liter = '每升油补（元/升）'
 string_money_oil_saved = '油费补贴（元）'
+
+#other fees
+other_fee = []
+other_fee_name = '姓名'
+other_fee_days_off = '请假'
+other_fee_phone_fee = '话费'
+other_fee_deduction = '扣钱'
+other_fee_comment = '备注'
+other_fee.append(other_fee_name)
+other_fee.append(other_fee_days_off)
+other_fee.append(other_fee_phone_fee)
+other_fee.append(other_fee_deduction)
+other_fee.append(other_fee_comment)
+other_fee_empty_fields = []
+other_fee_empty_fields.append(other_fee_days_off)
+other_fee_empty_fields.append(other_fee_phone_fee)
+other_fee_empty_fields.append(other_fee_deduction)
+string_other_fee_deduction_per_day = '每天扣钱（元）'
+string_other_fee_days_off_deduction = '请假扣钱（元）'
+string_other_fee_actual_phone_fee = '实际话费（元）'
+string_other_fee_phone_fee_deduction = '话费应扣（元）'
 
 

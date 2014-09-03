@@ -186,6 +186,12 @@ def truck_name_by_driver_name(driver_truck_dict, driver_name):
 def xls_generate_line(container, *items):
     container.append(items)
 
+def other_fee_record_by_name(lines, driver_name):
+    for line in lines:
+        if driver_name == lines[other_fee_name]:
+            return line
+
+
 
 
 

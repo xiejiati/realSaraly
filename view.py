@@ -66,6 +66,44 @@ class ProdutionValueView:
                 if item:
                     item.setText('')
 
+class OtherFeeView:
+    def read(self, ui):
+        table = ui.tableWidget
+        rowCnt = table.rowCount()
+        colCnt = table.columnCount()
+        data =[]
+        for i in range(rowCnt):
+            data1 = []
+            empty_field_cnt = 0
+            for j in range(colCnt):
+                item = table.item(i, j)
+                assert(item)
+                item_text = item.text().strip()
+                header_text =  table.horizontalHeaderItem(j).text()
+                if item_text == '':
+                    empty_field_cnt += 1
+                    if empty_field_cnt == colCnt:
+                        return data
+
+                if item_text == '' and header_text in variables.other_fee_empty_fields:
+                    item_text = str(0)
+                data1.append(header_text+':'+item_text)
+            data.append(data1)
+
+    def write(self, ui, data):
+        table = ui.tableWidget
+        rowCnt = len(data)
+        colCnt = table.columnCount()
+        for i in range(rowCnt):
+            for j in range(colCnt):
+                table.item(i, j).setText(data[i][j])
+
+
+
+
+
+
+
 
 
 

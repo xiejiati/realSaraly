@@ -13,7 +13,7 @@ import variables
 
 class Ui_ProductValue(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("南峰货运")
+        MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1000, 1000)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -71,6 +71,11 @@ class Ui_ProductValue(object):
         self.pushButton_2 = QtGui.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(290, 10, 75, 23))
         self.pushButton_2.setObjectName("pushButton_2")
+
+        self.pushButton_3 = QtGui.QPushButton(self.centralwidget)
+        self.pushButton_3.setGeometry(QtCore.QRect(410, 10, 75, 23))
+        self.pushButton_3.setObjectName("pushButton_3")
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -80,7 +85,7 @@ class Ui_ProductValue(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "MainWindow", None, QtGui.QApplication.UnicodeUTF8))
+        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "南峰货运", None, QtGui.QApplication.UnicodeUTF8))
         self.tableWidget.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("MainWindow", variables.date, None, QtGui.QApplication.UnicodeUTF8))
         self.tableWidget.horizontalHeaderItem(1).setText(QtGui.QApplication.translate("MainWindow", variables.client, None, QtGui.QApplication.UnicodeUTF8))
         self.tableWidget.horizontalHeaderItem(2).setText(QtGui.QApplication.translate("MainWindow", variables.product_value, None, QtGui.QApplication.UnicodeUTF8))
@@ -97,5 +102,6 @@ class Ui_ProductValue(object):
 
         self.pushButton.setText(QtGui.QApplication.translate("MainWindow", "保存", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButton_2.setText(QtGui.QApplication.translate("MainWindow", "计算并导出", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_3.setText(QtGui.QApplication.translate("MainWindow", "输入话费", None, QtGui.QApplication.UnicodeUTF8))
 
 

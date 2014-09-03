@@ -86,6 +86,36 @@ class ProductValueTranslator:
             i += 1
         return output
 
+class OtherFeeTranslator():
+    def view_2_stored(self, data):
+        out_data = []
+        for data1 in data:
+            out_data1 = '\t'.join(data1)+'\n'
+            out_data.append(out_data1)
+        return out_data
+
+    def stored_2_view(self, data):
+        out_data = []
+        for data1 in data:
+            items = data1.split()
+            data2 = []
+            for item in items:
+                data2.append(item.partition(stored_partition_delimiter)[2])
+            out_data.append(data2)
+        return out_data
+
+    def stored_2_handler(self, data):
+        out_data = []
+        for data1 in data:
+            data1_dict = util.split_one_line_stored(data1)
+            out_data.append(data1_dict)
+        return out_data
+
+
+
+
+
+
 
 
 

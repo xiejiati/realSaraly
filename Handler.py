@@ -9,20 +9,27 @@ import computer
 import model
 import variables
 import util
+from final_ui.other_fee_ui import *
 
 class ProductionValueHandler(QObject):
     def __init__(self):
         super().__init__()
         self.lastComboxIdx = 0
         self.ui = MainWindow()
+        self.other_fee_ui = OtherFeeWindow()
         self.ui.pushButton.clicked.connect(self, SLOT('save_slot()'))
         self.ui.pushButton_2.clicked.connect(self, SLOT('compute_export_slot()'))
         self.ui.comboBox.currentIndexChanged[int].connect(self, SLOT('index_changed_slot(int)'))
+        self.ui.pushButton_3.clicked.connect(self, SLOT('other_fee_open_slot()'))
+        self.other_fee_ui.pushButton.clicked.connect(self, SLOT('other_fee_save_slot()'))
         self.view = view.ProdutionValueView()
         self.model = model.CommonFileModel()
         self.translator = translator.ProductValueTranslator()
         self.computer = computer.ProductValueComputer()
         self.xsl_model = model.XslModel()
+        self.other_fee_translator = translator.OtherFeeTranslator()
+        self.other_fee_view = view.OtherFeeView()
+        self.other_fee_computer = computer.OtherFeeComputer()
         self.driver_truck_dict = {}
 
     def compute_export_slot(self):
@@ -122,6 +129,31 @@ class ProductionValueHandler(QObject):
                                    self.computer.money_oil_saved(oil_saved))
             xls_data.append(data_oil)
 
+            #other fee
+            path = util.join_path(variables.pre_path_other_fee, variables.file_name_other_fee,
+                              variables.postfix_other_fee)
+            lines = self.model.read(path)
+            assert (lines)
+            self.other_fee_translator.stored_2_handler(lines)
+            other_fee_record = util.other_fee_record_by_name(lines, driver_name)
+
+            data_other_fee = []
+            util.xls_generate_line(data_other_fee, variables.other_fee_days_off,
+                                   other_fee_record[variables.other_fee_days_off])
+            util.xls_generate_line(data_other_fee, variables.string_other_fee_deduction_per_day,
+                                   variables.money_per_dayoff)
+            money_deduction_days_off = self.other_fee_computer.deduction_days_off(other_fee_record[variables.other_fee_days_off])
+            util.xls_generate_line(data_other_fee, variables.string_other_fee_days_off_deduction,
+                                    money_deduction_days_off)
+            util.xls_generate_line(data_other_fee, variables.string_other_fee_actual_phone_fee,
+                                   other_fee_record[variables.other_fee_phone_fee])
+            phone_fee_deduction = self.other_fee_computer.deduction_phone_fee(other_fee_record[variables.other_fee_phone_fee])
+            util.xls_generate_line(data_other_fee, variables.string_other_fee_phone_fee_deduction,
+                                   phone_fee_deduction)
+            util.xls_generate_line(data_other_fee, variables.string_total,
+            self.other_fee_computer.phone_fee_days_off_deduction(phone_fee_deduction, money_deduction_days_off))
+
+
             path = util.join_path(util.pre_path_xsl, driver_name, 'xls')
             self.xsl_model.personal_detail_write(path, xls_data)
 
@@ -151,6 +183,22 @@ class ProductionValueHandler(QObject):
         else:
             self.view.clear_table_text(self.ui)
 
+    def other_fee_open_slot(self):
+        self.other_fee_ui.show()
+        path = util.join_path(variables.pre_path_other_fee, variables.file_name_other_fee,
+                              variables.postfix_other_fee)
+        lines = self.model.read(path)
+        if not lines: return
+        view_data = self.other_fee_translator.stored_2_view(lines)
+        self.other_fee_view.write(self.other_fee_ui, view_data)
+
+    
+    def other_fee_save_slot(self):
+        lines = self.other_fee_view.read(self.other_fee_ui)
+        lines = self.other_fee_translator.view_2_stored(lines)
+        path = util.join_path(variables.pre_path_other_fee, variables.file_name_other_fee,
+                              variables.postfix_other_fee)
+        self.model.write(lines, path)
 
     def __save_from_view_2_stored__(self, truck_name):
         data = self.view.read(self.ui)
@@ -161,11 +209,6 @@ class ProductionValueHandler(QObject):
     def ui_show(self):
         return self.ui.show()
 
-
-
-class OthersHandler:
-    def money_days_off(self):
-        pass
 
 
 

@@ -64,9 +64,15 @@ class ProductValueComputer:
         return oil_saved * money_per_liter
 
 
-class OtherFee:
-    def tel_ss_remaining(self, days_off, tel_charge):
-        self._remaining = tel_charge - tel_charge - money_per_dayoff * days_off
-        if self._remaining < -500:
-            self._remaining = -500
-        return  self._remaining
+class OtherFeeComputer:
+    def phone_fee_days_off_deduction(self, days_off_deduction, phone_fee_deduction):
+        return phone_fee_deduction + days_off_deduction
+
+    def deduction_days_off(self, days_off):
+        days_off_deduction = -money_per_dayoff * days_off
+        if days_off_deduction < -400:
+            days_off_deduction = -400
+        return days_off_deduction
+
+    def deduction_phone_fee(self, actual_phone_fee):
+        return 100 - actual_phone_fee
