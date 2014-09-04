@@ -205,8 +205,8 @@ def open_work_book(path, sheet_name):
         table = file.add_sheet(sheet_name, cell_overwrite_ok=True)
         return file, table, style
 
-def single_array_write(data, table, style, num_lines):
-    i = 0
+def single_array_write(data, table, start_row, style, num_lines):
+    i = start_row
     while i < num_lines:
         data1 = data[i]
         size_data1 = len(data1)

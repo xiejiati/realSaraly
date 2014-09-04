@@ -35,15 +35,15 @@ class XslModel():
         while cur_index < size:
             data1 = data[cur_index]
             num_line = len(data1)
-            util.single_array_write(data1, table, style, num_line)
-            i += num_line
+            util.single_array_write(data1, table, i, style, num_line)
+            i += num_line+1
             cur_index += 1
         file.save(path)
 
     def single_array_write(self, path, data, sheet_name):
         file, table, style = util.open_work_book(path, sheet_name)
         num_line = len(data)
-        util.single_array_write(data, table, style, num_line)
+        util.single_array_write(data, table, 0, style, num_line)
         file.save(path)
 
 
