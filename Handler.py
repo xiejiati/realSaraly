@@ -55,7 +55,7 @@ class ProductionValueHandler(QObject):
             xls_data.append(out_data1)
 
         path = util.join_path(variables.pre_path_sum_xsl, variables.string_salary_table, 'xls')
-        self.xsl_model.single_array_write(path, xls_data, variables.string_salary_table, False)
+        self.xsl_model.single_array_write(path, xls_data, variables.string_salary_table)
 
         xls_data_salary_sheet = []
         header = xls_data[0][1:]
@@ -63,11 +63,8 @@ class ProductionValueHandler(QObject):
         num_line = len(xls_data)
         while j < num_line:
             xls_data_salary_sheet.append(header)
-
-        j = 1
-        for line in xls_data_salary_sheet:
-
-            xls_data_salary_sheet[j] = line[1:]
+            xls_data_salary_sheet.append(xls_data[j][1:])
+            xls_data_salary_sheet.append([])
             j += 1
 
         path = util.join_path(variables.pre_path_sum_xsl, variables.string_salary_sheet, 'xls')

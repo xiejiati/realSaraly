@@ -205,19 +205,15 @@ def open_work_book(path, sheet_name):
         table = file.add_sheet(sheet_name, cell_overwrite_ok=True)
         return file, table, style
 
-def single_array_write(data, table, style, num_lines, if_add_empty_line=False):
+def single_array_write(data, table, style, num_lines):
     i = 0
-    index = 0
-    while index < num_lines:
-        data1 = data[index]
+    while i < num_lines:
+        data1 = data[i]
         size_data1 = len(data1)
         for j in range(size_data1):
             if str(data1[j]) == '' : continue
             table.write(i, j, data1[j], style)
-        if if_add_empty_line:
-            i += 1
 
-        index += 1
         i += 1
 
 

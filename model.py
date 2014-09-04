@@ -40,10 +40,10 @@ class XslModel():
             cur_index += 1
         file.save(path)
 
-    def single_array_write(self, path, data, sheet_name, if_add_empty_line=True):
+    def single_array_write(self, path, data, sheet_name):
         file, table, style = util.open_work_book(path, sheet_name)
         num_line = len(data)
-        util.single_array_write(data, table, style, num_line, if_add_empty_line)
+        util.single_array_write(data, table, style, num_line)
         file.save(path)
 
 
