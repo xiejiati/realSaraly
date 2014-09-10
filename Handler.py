@@ -55,7 +55,7 @@ class ProductionValueHandler(QObject):
             xls_data.append(out_data1)
 
         path = util.join_path(variables.pre_path_sum_xsl, variables.string_salary_table, 'xls')
-        self.xsl_model.single_array_write(path, xls_data, variables.string_salary_table)
+        next_line_num = self.xsl_model.single_array_write(path, xls_data, variables.string_salary_table)
 
         xls_data_salary_sheet = []
         header = xls_data[0][1:]
@@ -68,7 +68,7 @@ class ProductionValueHandler(QObject):
             j += 1
 
         path = util.join_path(variables.pre_path_sum_xsl, variables.string_salary_sheet, 'xls')
-        self.xsl_model.single_array_write(path, xls_data_salary_sheet, variables.string_salary_sheet)
+        return self.xsl_model.single_array_write(path, xls_data_salary_sheet, variables.string_salary_sheet)
 
     def __personal_detail__(self):
         out_data = []
@@ -114,7 +114,7 @@ class ProductionValueHandler(QObject):
             #total product_value:including single and double
             out_data1[variables.string_sum_product_value] = product_value_total
             out_data1[variables.string_sum_tie] = self.computer.money_tie_in_product_value(product_value_total)
-            out_data1[variables.string_sum_commission] = self.computer.money_product_value_single(product_value_total)
+            out_data1[variables.string_sum_commission] = self.computer.money_salary_in_product_value(product_value_total)
             util.xls_generate_line(data_product_value_money, variables.string_total,
                                    product_value_total)
             xls_data.append(data_product_value_money)
@@ -245,7 +245,7 @@ class ProductionValueHandler(QObject):
 
             path = util.join_path(util.pre_path_personal_details_xsl, driver_name, 'xls')
             self.xsl_model.multi_array_write(path, xls_data, variables.string_personal_detail)
-            return out_data
+        return out_data
 
     def save_slot(self):
         if self.view.truck_combox_index(self.ui) == 0:

@@ -201,20 +201,21 @@ def other_fee_record_by_name(lines, driver_name):
 
 def open_work_book(path, sheet_name):
         file = xlwt.Workbook(encoding='utf-8')
-        style = xlwt.easyxf('align: wrap on')
+        style = xlwt.easyxf(xls_alignment)
         table = file.add_sheet(sheet_name, cell_overwrite_ok=True)
         return file, table, style
 
 def single_array_write(data, table, start_row, style, num_lines):
-    i = start_row
+    i = 0
     while i < num_lines:
         data1 = data[i]
         size_data1 = len(data1)
         for j in range(size_data1):
             if str(data1[j]) == '' : continue
-            table.write(i, j, data1[j], style)
+            table.write(start_row, j, data1[j], style)
 
         i += 1
+        start_row += 1
 
 
 

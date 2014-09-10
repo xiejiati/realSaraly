@@ -19,15 +19,13 @@ class ProdutionValueView:
                 header = table.horizontalHeaderItem(j).text().strip()
                 item_text = table.item(i, j).text().strip()
                 if header == variables.truck_weight and  item_text == '':
-                    data1[header] = str(0)
-                elif item_text != '':
-                    data1[header] = item_text
-                else:
+                    item_text = '0'
+                elif item_text == '':
                     valid_item_count += 1
                     if valid_item_count >= colCnt-1:
                         return data
-                    else:
-                        continue
+                data1[header] = item_text
+
             if len(data1) > 0:
                 data.append(data1)
         return data

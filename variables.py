@@ -100,7 +100,7 @@ string_oil_single = '个人用油（升）'
 string_oil_double = '两人用油/2（升）'
 string_oil_subsidy_per_mile = '每公里补油（升）'
 string_miles_single = '单人里程（公里）'
-string_miles_double = '两人里程（公里）'
+string_miles_double = '两人里程/2（公里）'
 string_oil_subsidy = '应补油量（升）'
 string_oil_own_single = '个人加油（升）'
 string_oil_own_double = '两人加油/2（升）'
@@ -159,11 +159,13 @@ string_sum_items.append(string_sum_deduction_reason)
 string_sum_items.append(string_sum_total)
 
 
-coe_tie = 0.1
-coe_salary = 0.9
+coe_tie = 0.01
+coe_salary = 0.09
 
 string_salary_table = '工资表'
 string_salary_sheet = '工资条'
+
+xls_alignment = 'align: wrap on, horiz center'
 
 
 

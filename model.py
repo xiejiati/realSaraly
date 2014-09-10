@@ -39,12 +39,14 @@ class XslModel():
             i += num_line+1
             cur_index += 1
         file.save(path)
+        return i
 
-    def single_array_write(self, path, data, sheet_name):
+    def single_array_write(self, path, data, sheet_name, start_row=0):
         file, table, style = util.open_work_book(path, sheet_name)
         num_line = len(data)
-        util.single_array_write(data, table, 0, style, num_line)
+        util.single_array_write(data, table,start_row, style, num_line)
         file.save(path)
+        return start_row+num_line
 
 
 

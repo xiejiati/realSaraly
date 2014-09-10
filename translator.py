@@ -77,6 +77,7 @@ class ProductValueTranslator:
         while i < size:
             line_items = []
             if util.is_odd(i):
+                #ignore "comment"
                 for j in range(item_differences):
                     line_items.append('')
             items = util.record_line_key_values(input[i])
