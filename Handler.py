@@ -4,6 +4,7 @@ __author__ = 'xiejiati'
 import view
 import translator
 from final_ui.product_value_ui import *
+from final_ui.start_dialog_ui import *
 from PySide.QtCore import *
 import computer
 import model
@@ -11,6 +12,7 @@ import variables
 import util
 from final_ui.other_fee_ui import *
 import functools
+import os
 
 class ProductionValueHandler(QObject):
     def __init__(self):
@@ -18,11 +20,15 @@ class ProductionValueHandler(QObject):
         self.lastComboxIdx = 0
         self.ui = MainWindow()
         self.other_fee_ui = OtherFeeWindow()
+        self.start_dialog = StartDialog()
+
         self.ui.pushButton.clicked.connect(self, SLOT('save_slot()'))
         self.ui.pushButton_2.clicked.connect(self, SLOT('compute_export_slot()'))
         self.ui.comboBox.currentIndexChanged[int].connect(self, SLOT('index_changed_slot(int)'))
         self.ui.pushButton_3.clicked.connect(self, SLOT('other_fee_open_slot()'))
         self.other_fee_ui.pushButton.clicked.connect(self, SLOT('other_fee_save_slot()'))
+        self.start_dialog.pushButton.clicked.connect(self, SLOT('start_accept_slot()'))
+
         self.view = view.ProdutionValueView()
         self.model = model.CommonFileModel()
         self.translator = translator.ProductValueTranslator()
@@ -32,6 +38,26 @@ class ProductionValueHandler(QObject):
         self.other_fee_view = view.OtherFeeView()
         self.other_fee_computer = computer.OtherFeeComputer()
         self.driver_truck_dict = {}
+
+    def start_accept_slot(self):
+        cur_idx_year = self.start_dialog.comboBox.currentIndex()
+        year = self.start_dialog.comboBox.itemText(cur_idx_year).strip()
+        cur_idx_month = self.start_dialog.comboBox_2.currentIndex()
+        month = self.start_dialog.comboBox_2.itemText(cur_idx_month).strip()
+        title = "南峰货运" + '  ' + year+'年'+month+'月'
+        if int(month) < 10:
+            month = '0'+month
+        in_year_month = year+month
+        variables.pre_path_personal_details_xsl = path_stored+'\\'+in_year_month+pre_path_personal_details_xsl
+        variables.pre_path__product_value_stored = path_stored+'\\'+in_year_month+pre_path__product_value_stored
+        variables.pre_path_other_fee = variables.pre_path_sum_xsl = path_stored+'\\'+in_year_month
+        if not os.path.exists(variables.pre_path__product_value_stored):
+            os.makedirs(variables.pre_path__product_value_stored)
+        if not os.path.exists(variables.pre_path_personal_details_xsl):
+            os.makedirs(variables.pre_path_personal_details_xsl)
+        self.start_dialog.close()
+        self.ui.setWindowTitle(title)
+        self.ui.show()
 
     def compute_export_slot(self):
         self.save_slot()
@@ -45,6 +71,7 @@ class ProductionValueHandler(QObject):
         xls_head_data.extend(variables.string_sum_items)
         xls_data.append(xls_head_data)
         i = 0
+        total = 0
         for data1 in data:
             i += 1
             items = list(data1.items())
@@ -52,10 +79,15 @@ class ProductionValueHandler(QObject):
             out_data1 = []
             out_data1.append(i)
             out_data1.extend([item[1] for item in items])
+            total += out_data1[-1]
             xls_data.append(out_data1)
+        row_total = []
+        row_total.append(variables.string_total)
+        row_total.append(total)
+        xls_data.append(row_total)
 
         path = util.join_path(variables.pre_path_sum_xsl, variables.string_salary_table, 'xls')
-        next_line_num = self.xsl_model.single_array_write(path, xls_data, variables.string_salary_table)
+        self.xsl_model.single_array_write(path, xls_data, variables.string_salary_table)
 
         xls_data_salary_sheet = []
         header = xls_data[0][1:]
@@ -296,7 +328,7 @@ class ProductionValueHandler(QObject):
         self.model.write(lines, path)
 
     def ui_show(self):
-        return self.ui.show()
+        return self.start_dialog.show()
 
 
 

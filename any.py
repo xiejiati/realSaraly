@@ -1,9 +1,15 @@
 #coding:utf-8
 __author__ = 'xjt'
 
-def xls_generate_line(container, *items):
-    container.append(items)
+def test():
 
-a = []
-xls_generate_line(a, '1', 2, 3)
-print(a)
+    a = 1
+    def test1():
+        global a
+        a = 2
+    test1()
+    print(a)
+
+a = 3
+test()
+#print (a)

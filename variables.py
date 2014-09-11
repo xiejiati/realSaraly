@@ -2,13 +2,15 @@ __author__ = 'xjt'
 
 import copy
 
+path_stored = 'stored'
+path_material = 'material'
+
 #paths
-pre_path_production_value = 'production_value'
-pre_path_truck = names_pre_path = 'material'
-pre_path_personal_details_xsl = 'stored\\personal_details'
-pre_path_sum_xsl = 'stored'
-pre_path__product_value_stored = 'stored\\truck_details'
-pre_path_other_fee = 'stored'
+pre_path_truck = names_pre_path = path_material
+
+pre_path_personal_details_xsl = '\\personal_details'
+pre_path__product_value_stored = '\\truck_details'
+pre_path_sum_xsl = pre_path_other_fee = path_stored
 
 
 postfix_other_fee = 'of'
@@ -166,6 +168,12 @@ string_salary_table = '工资表'
 string_salary_sheet = '工资条'
 
 xls_alignment = 'align: wrap on, horiz center'
+
+def update_path(in_year_month):
+    global pre_path_personal_details_xsl, pre_path__product_value_stored, pre_path_sum_xsl, pre_path_other_fee
+    pre_path_personal_details_xsl = path_stored+'\\'+in_year_month+pre_path_personal_details_xsl
+    pre_path__product_value_stored = path_stored+'\\'+in_year_month+pre_path__product_value_stored
+    pre_path_other_fee = pre_path_sum_xsl = path_stored+'\\'+in_year_month
 
 
 

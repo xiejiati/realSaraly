@@ -85,7 +85,6 @@ class Ui_ProductValue(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "南峰货运", None, QtGui.QApplication.UnicodeUTF8))
         self.tableWidget.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("MainWindow", variables.date, None, QtGui.QApplication.UnicodeUTF8))
         self.tableWidget.horizontalHeaderItem(1).setText(QtGui.QApplication.translate("MainWindow", variables.client, None, QtGui.QApplication.UnicodeUTF8))
         self.tableWidget.horizontalHeaderItem(2).setText(QtGui.QApplication.translate("MainWindow", variables.product_value, None, QtGui.QApplication.UnicodeUTF8))
