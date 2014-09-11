@@ -55,9 +55,10 @@ class ProductionValueHandler(QObject):
             os.makedirs(variables.pre_path__product_value_stored)
         if not os.path.exists(variables.pre_path_personal_details_xsl):
             os.makedirs(variables.pre_path_personal_details_xsl)
-        self.start_dialog.close()
         self.ui.setWindowTitle(title)
         self.ui.show()
+        self.start_dialog.close()
+
 
     def compute_export_slot(self):
         self.save_slot()
@@ -275,7 +276,7 @@ class ProductionValueHandler(QObject):
 
             out_data.append(out_data1)
 
-            path = util.join_path(util.pre_path_personal_details_xsl, driver_name, 'xls')
+            path = util.join_path(variables.pre_path_personal_details_xsl, driver_name, 'xls')
             self.xsl_model.multi_array_write(path, xls_data, variables.string_personal_detail)
         return out_data
 

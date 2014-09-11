@@ -5,11 +5,10 @@ import variables
 import model
 import translator
 import xlwt
-import imp
 
 def compute_product_value(name, v, round, single, double):
-    compute_product_each_record(name, v, round, single, double, first_record)
-    compute_product_each_record(name, v, round, single, double, second_record)
+    compute_product_each_record(name, v, round, single, double, variables.first_record)
+    compute_product_each_record(name, v, round, single, double, variables.second_record)
 
 
 def compute_product_each_record(name, v, round, single, double, record):
@@ -118,7 +117,6 @@ def truck_name_contains_driver(driver_name):
         return ''
     m = model.CommonFileModel()
     t = translator.ProductValueTranslator()
-    imp.reload(variables)
     for truck_name in truck_names:
         path = join_path(variables.pre_path__product_value_stored, truck_name, 'pv')
         lines = m.read(path)
