@@ -9,8 +9,8 @@ path_material = 'material'
 pre_path_truck = names_pre_path = path_material
 
 
-pre_path_personal_details_xsl = '\\personal_details'
-pre_path__product_value_stored = '\\truck_details'
+pre_path_personal_details_xsl = '\\个人明细'
+pre_path__product_value_stored = '\\车辆输入数据'
 pre_path_sum_xsl = pre_path_other_fee = path_stored
 
 

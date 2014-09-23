@@ -1,18 +1,21 @@
 #coding:utf-8
 __author__ = 'xiejiati'
 
+import functools
+import os
+
+from PySide.QtCore import *
+
 import view
 import translator
-from final_ui.product_value_ui import *
-from final_ui.start_dialog_ui import *
-from PySide.QtCore import *
+from f_ui.product_value_ui import *
+from f_ui.start_dialog_ui import *
 import computer
 import model
 import variables
 import util
-from final_ui.other_fee_ui import *
-import functools
-import os
+from f_ui.other_fee_ui import *
+
 
 class ProductionValueHandler(QObject):
     def __init__(self):
@@ -63,7 +66,9 @@ class ProductionValueHandler(QObject):
     def compute_export_slot(self):
         self.save_slot()
         sum_data = self.__personal_detail__()
-        self.__salary_list__(sum_data)
+        if sum_data:
+            self.__salary_list__(sum_data)
+        os.startfile('stored')
 
     def __salary_list__(self, data):
         xls_data = []
@@ -94,7 +99,7 @@ class ProductionValueHandler(QObject):
         header = xls_data[0][1:]
         j = 1
         num_line = len(xls_data)
-        while j < num_line:
+        while j < num_line-1:
             xls_data_salary_sheet.append(header)
             xls_data_salary_sheet.append(xls_data[j][1:])
             xls_data_salary_sheet.append([])

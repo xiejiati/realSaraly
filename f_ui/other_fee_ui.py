@@ -1,7 +1,7 @@
 #coding:utf-8
 __author__ = 'xjt'
 
-from complied_ui.other_fee import *
+from c_ui.other_fee import *
 
 class OtherFeeWindow(QtGui.QMainWindow, Ui_OtherFeeWindow):
     def __init__(self, parent = None):
